@@ -37,7 +37,7 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 h-nav-h bg-transparent transition-all duration-500 ease-in-out"
+      className="fixed top-3 left-0 right-0 z-50 h-nav-h bg-transparent transition-all duration-500 ease-in-out max-[900px]:top-0"
     >
       <div className="max-w-[1280px] mx-auto px-8 h-full flex items-center justify-between gap-6">
 
@@ -60,7 +60,7 @@ export default function Navbar() {
 
         {/* CENTER — Navigation Links */}
         <nav
-          className={`flex items-center gap-1.5 absolute left-1/2 -translate-x-1/2 max-[900px]:fixed max-[900px]:top-nav-h max-[900px]:left-0 max-[900px]:right-0 max-[900px]:flex-col max-[900px]:items-start max-[900px]:bg-transparent max-[900px]:p-6 max-[900px]:pt-6 max-[900px]:pb-8 max-[900px]:gap-1 max-[900px]:-translate-y-[120%] max-[900px]:translate-x-0 transition-transform duration-500 ${menuOpen ? 'max-[900px]:translate-y-0' : ''}`}
+          className={`flex items-center gap-1.5 absolute left-1/2 -translate-x-1/2 bg-[rgba(255,255,255,0.05)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-full px-3 py-1.5 max-[900px]:fixed max-[900px]:top-nav-h max-[900px]:left-0 max-[900px]:right-0 max-[900px]:flex-col max-[900px]:items-start max-[900px]:bg-transparent max-[900px]:backdrop-blur-none max-[900px]:border-none max-[900px]:rounded-none max-[900px]:p-6 max-[900px]:pt-6 max-[900px]:pb-8 max-[900px]:gap-1 max-[900px]:-translate-y-[120%] max-[900px]:translate-x-0 transition-transform duration-500 ${menuOpen ? 'max-[900px]:translate-y-0' : ''}`}
           ref={navRef}
         >
           {links.map((link) => (

@@ -1,6 +1,7 @@
 import './index.css'
 import Navbar   from './components/Navbar'
 import Hero     from './components/Hero'
+import Strategy from './components/Strategy'
 import About    from './components/About'
 import Work     from './components/Work'
 import Services from './components/Services'
@@ -13,6 +14,7 @@ export default function App() {
     <>
       <Navbar />
       <Hero />
+      <Strategy />
       <About />
       <Work />
       <Services />
