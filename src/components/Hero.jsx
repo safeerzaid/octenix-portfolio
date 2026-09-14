@@ -1,13 +1,19 @@
 import heroImage from '../assets/hero.png'
+import DarkVeil from './DarkVeil'
 
 export default function Hero() {
   return (
     <section className="min-h-screen flex items-center justify-between px-[10vw] relative overflow-hidden gap-10 pt-nav-h max-[1024px]:flex-col max-[1024px]:px-8 max-[1024px]:pt-[120px] max-[1024px]:pb-20 max-[1024px]:text-center" id="home">
       {/* Background decoration */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute blur-[120px] opacity-[0.25] animate-float w-[800px] h-[500px] rounded-[100%_150%_100%_150%] bg-orange -top-[100px] -right-[150px]" style={{ animationDelay: '0s' }}></div>
-        <div className="absolute blur-[120px] opacity-[0.25] animate-float w-[700px] h-[500px] rounded-[150%_100%_150%_100%] bg-orange-dark -bottom-[100px] -left-[150px]" style={{ animationDelay: '3s' }}></div>
-        <div className="absolute blur-[100px] opacity-[0.2] animate-float w-[400px] h-[400px] rounded-[120%_120%_100%_100%] bg-orange-light top-[30%] left-[20%]" style={{ animationDelay: '5s' }}></div>
+      <div className="absolute inset-0 overflow-hidden z-0">
+        <DarkVeil
+          hueShift={211}
+          noiseIntensity={0}
+          scanlineIntensity={0}
+          speed={0.5}
+          scanlineFrequency={0}
+          warpAmount={0}
+        />
       </div>
 
       {/* Content */}

@@ -37,9 +37,9 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-3 left-0 right-0 z-50 h-nav-h bg-transparent transition-all duration-500 ease-in-out max-[900px]:top-0"
+      className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full transition-all duration-500 ease-in-out max-[900px]:top-0 max-[900px]:block"
     >
-      <div className="max-w-[1280px] mx-auto px-8 h-full flex items-center justify-between gap-6">
+      <div className="flex items-center justify-between gap-20 bg-[rgba(255,255,255,0.05)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl pl-6 pr-4 py-2 max-[900px]:w-full max-[900px]:rounded-none max-[900px]:border-x-0 max-[900px]:border-t-0 max-[900px]:px-6 max-[900px]:py-3 max-[900px]:bg-[rgba(0,0,0,0.8)]">
 
         {/* LEFT — Logo + Brand Name */}
         <a
@@ -53,14 +53,14 @@ export default function Navbar() {
             className="w-12 h-12 object-contain shrink-0 block"
           />
 
-          <span className="text-2xl font-extrabold tracking-[-0.5px] text-white">
+          <span className="text-2xl font-medium tracking-[-0.5px] text-white">
             octenix
           </span>
         </a>
 
         {/* CENTER — Navigation Links */}
         <nav
-          className={`flex items-center gap-1.5 absolute left-1/2 -translate-x-1/2 bg-[rgba(255,255,255,0.05)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-full px-3 py-1.5 max-[900px]:fixed max-[900px]:top-nav-h max-[900px]:left-0 max-[900px]:right-0 max-[900px]:flex-col max-[900px]:items-start max-[900px]:bg-transparent max-[900px]:backdrop-blur-none max-[900px]:border-none max-[900px]:rounded-none max-[900px]:p-6 max-[900px]:pt-6 max-[900px]:pb-8 max-[900px]:gap-1 max-[900px]:-translate-y-[120%] max-[900px]:translate-x-0 transition-transform duration-500 ${menuOpen ? 'max-[900px]:translate-y-0' : ''}`}
+          className={`flex items-center gap-2 max-[900px]:fixed max-[900px]:top-[70px] max-[900px]:left-0 max-[900px]:right-0 max-[900px]:flex-col max-[900px]:items-start max-[900px]:bg-black/95 max-[900px]:backdrop-blur-2xl max-[900px]:border-b max-[900px]:border-[rgba(255,255,255,0.1)] max-[900px]:rounded-none max-[900px]:p-6 max-[900px]:pt-6 max-[900px]:pb-8 max-[900px]:gap-1 max-[900px]:-translate-y-[150%] max-[900px]:translate-x-0 transition-transform duration-500 ${menuOpen ? 'max-[900px]:translate-y-0' : ''}`}
           ref={navRef}
         >
           {links.map((link) => (

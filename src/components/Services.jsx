@@ -39,8 +39,8 @@ const ServiceRow = ({ num, title, desc, id }) => {
 
 export default function Services() {
   return (
-    <section className="bg-black pt-24 pb-32 overflow-hidden flex flex-col justify-start items-start w-full" id="services">
-      <div className="w-full px-4 md:px-[5vw] lg:px-[4vw]">
+    <section className="bg-black pt-24 pb-32 px-[10vw] overflow-hidden flex flex-col justify-start items-start w-full" id="services">
+      <div className="max-w-[1280px] w-full mx-auto">
         
         {/* Large section header */}
         <div className="mb-16">
