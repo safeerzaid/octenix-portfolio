@@ -22,7 +22,7 @@ export default function Hero() {
         </p>
 
         <div className="flex gap-4 flex-wrap mb-[60px] animate-fadeUp max-[1024px]:justify-center" style={{ animationDelay: '0.8s' }}>
-          <a href="#work" className="group no-underline inline-flex justify-center items-center gap-3 font-sans text-[0.95rem] font-bold text-white bg-transparent py-2 pl-6 pr-2 rounded-full border border-border cursor-pointer transition-all duration-200 hover:border-[rgba(255,255,255,0.3)]" id="hero-cta-work">
+          <a href="#work" className="group no-underline inline-flex justify-center items-center gap-3 font-sans text-[0.95rem] font-bold text-white bg-[rgba(255,255,255,0.05)] backdrop-blur-md py-2 pl-6 pr-2 rounded-full border border-[rgba(255,255,255,0.1)] cursor-pointer transition-all duration-300 hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.3)]" id="hero-cta-work">
             View Our Work
             <span className="flex justify-center items-center w-10 h-10 bg-white rounded-full text-black transition-transform duration-200 group-hover:scale-105">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">

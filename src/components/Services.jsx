@@ -1,32 +1,73 @@
 const services = [
-  { icon: '🎨', title: 'UI/UX Design',       desc: 'Intuitive and visually stunning interfaces crafted through deep user research and iterative design.' },
-  { icon: '💻', title: 'Web Development',     desc: 'High-performance websites and web apps built with modern frameworks and best practices.' },
-  { icon: '📱', title: 'Mobile Apps',         desc: 'Native and cross-platform mobile experiences that users love and businesses depend on.' },
-  { icon: '✦',  title: 'Brand Identity',      desc: 'Strategic branding that positions your company distinctly in a competitive marketplace.' },
-  { icon: '📈', title: 'Digital Marketing',   desc: 'Data-driven campaigns that grow your audience, engage customers, and boost ROI.' },
-  { icon: '🤖', title: 'AI Integration',      desc: 'Smart automation and AI-powered features that give your product a competitive edge.' },
+  { id: 'web-mobile-dev', title: 'Web & Mobile Development', desc: 'High-performance websites and native mobile apps built with modern frameworks to deliver seamless cross-platform experiences.' },
+  { id: 'e-commerce', title: 'E-Commerce', desc: 'Robust, secure, and highly converting e-commerce platforms designed to scale your online sales and simplify store management.' },
+  { id: 'branding', title: 'Branding', desc: 'Strategic brand identity design that communicates your core values, differentiates you from competitors, and resonates with your audience.' },
+  { id: 'custom-software', title: 'Custom Software', desc: 'Bespoke software solutions engineered from the ground up to solve your unique operational challenges and drive efficiency.' },
+  { id: 'ui-ux-designing', title: 'UI/UX Designing', desc: 'Intuitive, user-centered interface designs that look beautiful and function flawlessly, ensuring maximum user engagement.' },
 ]
+
+const ServiceRow = ({ num, title, desc, id }) => {
+  return (
+    <a href={`#service-${id}`} className="group block border-b border-[rgba(255,255,255,0.1)] py-8 md:py-12 no-underline cursor-pointer hover:bg-[rgba(255,255,255,0.02)] transition-colors duration-300 px-4 md:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-y-3 md:gap-y-2 lg:gap-y-0 items-start md:items-center w-full">
+        
+        {/* Number */}
+        <div className="md:col-span-1 lg:col-span-1 flex items-start w-full">
+          <span className="text-[0.75rem] text-[rgba(255,255,255,0.4)] font-mono">{num}</span>
+        </div>
+        
+        {/* Title */}
+        <div className="md:col-span-11 lg:col-span-5 flex justify-between items-center w-full">
+          <h3 className="text-white text-[1.6rem] md:text-[2rem] lg:text-[2.2rem] font-medium tracking-tight transition-all duration-300 group-hover:translate-x-1 lg:group-hover:translate-x-2">
+            {title}
+          </h3>
+          <span className="lg:hidden text-[rgba(255,255,255,0.5)] text-xl transition-all duration-300 group-hover:translate-x-1 group-hover:text-white">→</span>
+        </div>
+
+        {/* Description & Arrow (Desktop) */}
+        <div className="md:col-span-11 md:col-start-2 lg:col-span-6 lg:col-start-7 flex justify-between items-center w-full mt-1 md:mt-0">
+          <p className="text-[rgba(255,255,255,0.5)] text-[0.95rem] md:text-[1rem] leading-[1.6] max-w-[420px] transition-colors duration-300 group-hover:text-[rgba(255,255,255,0.9)]">
+            {desc}
+          </p>
+          <span className="hidden lg:block text-[rgba(255,255,255,0.5)] text-xl transition-all duration-300 group-hover:translate-x-2 group-hover:text-white">→</span>
+        </div>
+
+      </div>
+    </a>
+  )
+}
 
 export default function Services() {
   return (
-    <section className="py-[120px] relative max-[640px]:py-[80px] bg-gradient-to-b from-[#060609] to-dark" id="services">
-      <div className="max-w-[1200px] mx-auto px-8 max-[640px]:px-5">
-        <div className="inline-block text-[0.75rem] font-bold tracking-[2px] uppercase text-orange bg-[rgba(249,115,22,0.1)] border border-[rgba(249,115,22,0.2)] py-1.5 px-4 rounded-full mb-5">What We Do</div>
-        <h2 className="text-[clamp(2rem,4vw,3.2rem)] font-extrabold tracking-[-1px] leading-[1.15] mb-5 text-white">Services That <span className="bg-gradient-to-br from-orange via-orange-light to-[#fbbf24] bg-clip-text text-transparent">Deliver</span></h2>
-        <p className="text-[1.05rem] text-text-muted max-w-[560px] leading-[1.75] mb-16">
-          End-to-end digital solutions tailored to your growth goals.
-        </p>
-
-        <div className="grid grid-cols-3 gap-6 max-[1024px]:grid-cols-2 max-[640px]:grid-cols-1">
-          {services.map((s, i) => (
-            <div className="bg-card border border-border rounded-default py-9 px-8 transition-all duration-300 relative overflow-hidden cursor-pointer group hover:border-[rgba(249,115,22,0.4)] hover:bg-[rgba(249,115,22,0.05)] hover:-translate-y-1.5" key={i} id={`service-card-${i + 1}`}>
-              <span className="text-[2.4rem] mb-5 block">{s.icon}</span>
-              <h3 className="text-[1.1rem] font-bold mb-3 text-white">{s.title}</h3>
-              <p className="text-text-muted text-[0.9rem] leading-[1.7] mb-6">{s.desc}</p>
-              <span className="text-[1.2rem] text-orange transition-transform duration-300 inline-block group-hover:translate-x-1.5">→</span>
-            </div>
-          ))}
+    <section className="bg-black pt-24 pb-32 overflow-hidden flex flex-col justify-start items-start w-full" id="services">
+      <div className="w-full px-4 md:px-[5vw] lg:px-[4vw]">
+        
+        {/* Large section header */}
+        <div className="mb-16">
+          <h2 className="text-[clamp(2.5rem,6vw,7rem)] font-light text-white uppercase leading-none tracking-[-0.02em] text-left">
+            SERVICES
+          </h2>
         </div>
+        
+        {/* Top divider before first item */}
+        <div className="w-full h-[1px] bg-[rgba(255,255,255,0.1)]"></div>
+        
+        <div className="flex flex-col w-full">
+          {services.map((service, index) => {
+            // Generate zero-padded number (01, 02, etc.)
+            const num = (index + 1).toString().padStart(2, '0')
+            return (
+              <ServiceRow 
+                key={service.id}
+                id={service.id}
+                num={num}
+                title={service.title}
+                desc={service.desc}
+              />
+            )
+          })}
+        </div>
+
       </div>
     </section>
   )
