@@ -44,7 +44,6 @@ export default function Navbar() {
 
   const socialItems = [
     { label: 'Instagram', link: 'https://www.instagram.com/octenix?stkn=cHUyM2VhZTd6cXdr&utm_source=qr' },
-    { label: 'Twitter', link: 'https://twitter.com' },
     { label: 'LinkedIn', link: 'https://www.linkedin.com/company/octenix/' }
   ];
 

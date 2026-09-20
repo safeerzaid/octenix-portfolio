@@ -345,11 +345,23 @@ export const StaggeredMenu = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [closeOnClickAway, open, closeMenu]);
+  React.useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [open]);
 
   return (
     <div
-      className={`sm-scope z-40 ${isFixed ? 'fixed top-0 left-0 w-screen h-screen overflow-hidden pointer-events-none' : 'w-full h-full'}`}
+      className={`sm-scope z-40 ${isFixed ? 'fixed inset-0 w-full h-[100dvh] overflow-hidden pointer-events-none' : 'w-full h-full'}`}
     >
       <div
         className={
@@ -524,7 +536,7 @@ export const StaggeredMenu = ({
 .sm-scope .sm-panel-itemWrap { position: relative; overflow: hidden; line-height: 1; }
 .sm-scope .sm-icon-line { position: absolute; left: 50%; top: 50%; width: 100%; height: 2px; background: currentColor; border-radius: 2px; transform: translate(-50%, -50%); will-change: transform; }
 .sm-scope .sm-line { display: none !important; }
-.sm-scope .staggered-menu-panel { position: absolute; top: 0; right: 0; width: clamp(260px, 38vw, 420px); height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; padding: 6em 2em 2em 2em; overflow-y: auto; z-index: 10; }
+.sm-scope .staggered-menu-panel { position: absolute; top: 0; right: 0; width: clamp(260px, 38vw, 420px); height: 100%; min-height: 100dvh; background: #000000 !important; display: flex; flex-direction: column; padding: 6em 2em 2em 2em; overflow-y: auto; z-index: 10; }
 .sm-scope [data-position='left'] .staggered-menu-panel { right: auto; left: 0; }
 .sm-scope .sm-prelayers { position: absolute; top: 0; right: 0; bottom: 0; width: clamp(260px, 38vw, 420px); pointer-events: none; z-index: 5; }
 .sm-scope [data-position='left'] .sm-prelayers { right: auto; left: 0; }
@@ -549,8 +561,16 @@ export const StaggeredMenu = ({
 .sm-scope .sm-panel-list[data-numbering] { counter-reset: smItem; }
 .sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.1em; right: 3.2em; font-size: 18px; font-weight: 400; color: var(--sm-accent, #ff0000); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
 @media (min-width: 768px) and (max-width: 1024px) { .sm-scope .sm-socials { display: none !important; } }
-@media (max-width: 1024px) { .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); } }
-@media (max-width: 640px) { .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); } }
+@media (max-width: 1024px) {
+  .sm-scope .staggered-menu-panel { width: 100vw !important; max-width: 100vw !important; left: 0 !important; right: 0 !important; top: 0 !important; bottom: 0 !important; height: 100dvh !important; min-height: 100dvh !important; background: #000000 !important; padding: 6.5em 2em 2.5em 2em !important; }
+  .sm-scope .sm-prelayers { width: 100vw !important; max-width: 100vw !important; left: 0 !important; right: 0 !important; height: 100dvh !important; }
+  .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); }
+}
+@media (max-width: 640px) {
+  .sm-scope .staggered-menu-panel { width: 100vw !important; max-width: 100vw !important; left: 0 !important; right: 0 !important; top: 0 !important; bottom: 0 !important; height: 100dvh !important; min-height: 100dvh !important; background: #000000 !important; padding: 5.5em 1.5em 2em 1.5em !important; }
+  .sm-scope .sm-panel-item { font-size: 3.2rem !important; }
+  .sm-scope .sm-prelayers { width: 100vw !important; max-width: 100vw !important; left: 0 !important; right: 0 !important; height: 100dvh !important; }
+}
       `}</style>
     </div>
   );
