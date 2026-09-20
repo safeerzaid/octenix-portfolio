@@ -29,33 +29,56 @@ export default function FAQ() {
   const toggle = (i) => setOpenIndex(openIndex === i ? null : i)
 
   return (
-    <section className="py-[120px] relative max-[640px]:py-[80px] bg-dark" id="faq">
-      <div className="max-w-[1200px] mx-auto px-8 max-[640px]:px-5">
-        <div className="inline-block text-[0.75rem] font-bold tracking-[2px] uppercase text-orange bg-[rgba(249,115,22,0.1)] border border-[rgba(249,115,22,0.2)] py-1.5 px-4 rounded-full mb-5">Got Questions?</div>
-        <h2 className="text-[clamp(2rem,4vw,3.2rem)] font-extrabold tracking-[-1px] leading-[1.15] mb-16 text-white">
-          Frequently Asked <span className="bg-gradient-to-br from-orange via-orange-light to-[#fbbf24] bg-clip-text text-transparent">Questions</span>
-        </h2>
-
-        <div className="max-w-[760px] flex flex-col gap-3">
-          {faqs.map((item, i) => (
-            <div
-              className={`bg-card border rounded-default overflow-hidden transition-colors duration-300 ${openIndex === i ? 'border-[rgba(249,115,22,0.35)]' : 'border-border'}`}
-              key={i}
-              id={`faq-${i + 1}`}
+    <section className="pt-24 md:pt-32 pb-8 md:pb-12 bg-[#050505] w-full" id="faq">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
+        
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
+          
+          {/* Left Column - Large Title */}
+          <div className="lg:w-1/3">
+            <h2 
+              className="text-5xl md:text-7xl font-thin text-white tracking-wide lg:sticky lg:top-32"
+              style={{ fontFamily: "'Coolvetica', sans-serif" }}
             >
-              <button
-                className="w-full bg-none border-none text-white font-sans text-base font-semibold text-left py-6 px-7 cursor-pointer flex items-center justify-between gap-4 transition-colors duration-200 hover:text-orange group"
-                aria-expanded={openIndex === i}
-                onClick={() => toggle(i)}
+              FAQ
+            </h2>
+          </div>
+
+          {/* Right Column - Questions List */}
+          <div className="lg:w-2/3 flex flex-col border-t border-neutral-800">
+            {faqs.map((item, i) => (
+              <div
+                className="border-b border-neutral-800 overflow-hidden"
+                key={i}
               >
-                {item.q}
-                <span className={`text-[1.4rem] text-orange transition-transform duration-300 shrink-0 inline-block ${openIndex === i ? 'rotate-45' : ''}`}>+</span>
-              </button>
-              <div className={`overflow-hidden transition-[max-height,padding] duration-400 ease-in-out ${openIndex === i ? 'max-h-[300px]' : 'max-h-0'}`}>
-                <p className="px-7 pb-7 text-text-muted text-[0.95rem] leading-[1.75]">{item.a}</p>
+                <button
+                  className="w-full text-left py-6 md:py-8 flex items-center justify-between gap-4 group"
+                  onClick={() => toggle(i)}
+                  aria-expanded={openIndex === i}
+                >
+                  <span className={`text-lg md:text-xl lg:text-2xl font-medium transition-colors duration-300 ${openIndex === i ? 'text-white' : 'text-neutral-400 group-hover:text-neutral-200'}`}>
+                    {item.q}
+                  </span>
+                  <span className={`text-3xl text-white transition-transform duration-300 ease-out shrink-0 font-light ${openIndex === i ? 'rotate-45' : ''}`}>
+                    +
+                  </span>
+                </button>
+                
+                {/* Smooth Dropdown Content using CSS Grid */}
+                <div 
+                  className="grid transition-[grid-template-rows] duration-500 ease-out"
+                  style={{ gridTemplateRows: openIndex === i ? '1fr' : '0fr' }}
+                >
+                  <div className="overflow-hidden">
+                    <p className="pb-8 text-neutral-400 text-base md:text-lg leading-relaxed pr-4 md:pr-12">
+                      {item.a}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
         </div>
       </div>
     </section>

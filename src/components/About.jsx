@@ -1,3 +1,10 @@
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SpotlightCard from './SpotlightCard';
+
+gsap.registerPlugin(ScrollTrigger);
+
 const cards = [
   {
     num: '01',
@@ -14,28 +21,137 @@ const cards = [
     title: 'Our Values',
     text: 'Integrity, creativity, and relentless pursuit of quality in every pixel and every line of code.',
   },
-]
+];
 
 export default function About() {
+  const containerRef = useRef(null);
+  const pText = "We are a passionate team of designers, developers, and strategists united by one mission — to create digital products that leave a lasting impression.";
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Advanced 3D kinetic letter-by-letter reveal with blur focus pull
+      gsap.fromTo('.about-char', 
+        { 
+          yPercent: 130, 
+          rotateX: -75, 
+          opacity: 0, 
+          filter: 'blur(12px)',
+          transformPerspective: 1000
+        },
+        { 
+          yPercent: 0, 
+          rotateX: 0, 
+          opacity: 1, 
+          filter: 'blur(0px)', 
+          duration: 1.3, 
+          stagger: 0.025, 
+          ease: 'power4.out', 
+          scrollTrigger: { 
+            trigger: '.about-heading', 
+            start: 'top 85%' 
+          } 
+        }
+      );
+
+      // Apple-style scrub for paragraph
+      const words = gsap.utils.toArray('.about-word');
+      gsap.fromTo(words, 
+        { opacity: 0.15 },
+        { opacity: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.about-p', start: 'top 90%', end: 'bottom 65%', scrub: true } }
+      );
+      // Animate each card individually when it enters the viewport
+      const cardEls = gsap.utils.toArray('.about-card');
+      cardEls.forEach((card) => {
+        gsap.fromTo(card,
+          { y: 60, opacity: 0, filter: 'blur(6px)' },
+          { 
+            y: 0, 
+            opacity: 1, 
+            filter: 'blur(0px)',
+            duration: 1.1, 
+            ease: 'power3.out', 
+            scrollTrigger: { 
+              trigger: card, 
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            } 
+          }
+        );
+      });
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="py-[120px] relative max-[640px]:py-[80px] bg-gradient-to-b from-dark to-[#080810]" id="about">
-      <div className="max-w-[1200px] mx-auto px-8 max-[640px]:px-5">
-        <div className="inline-block text-[0.75rem] font-bold tracking-[2px] uppercase text-orange bg-[rgba(249,115,22,0.1)] border border-[rgba(249,115,22,0.2)] py-1.5 px-4 rounded-full mb-5">Who We Are</div>
-        <h2 className="text-[clamp(2rem,4vw,3.2rem)] font-extrabold tracking-[-1px] leading-[1.15] mb-5 text-white">
-          A Team Obsessed With <span className="bg-gradient-to-br from-orange via-orange-light to-[#fbbf24] bg-clip-text text-transparent">Excellence</span>
+    <section ref={containerRef} className="py-[120px] relative max-[640px]:py-[80px] bg-black overflow-hidden" id="about">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-8">
+        
+        <h2 
+          className="about-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-thin tracking-wide leading-[1.15] mb-6 md:mb-8 text-white flex flex-col"
+          style={{ fontFamily: "'Coolvetica', sans-serif", fontWeight: 100, WebkitTextStroke: '0.5px #000' }}
+        >
+          <div className="flex flex-wrap">
+            {"A Team Obsessed".split("").map((char, i) => (
+              <span key={i} className={`inline-block overflow-hidden ${char === ' ' ? 'w-[0.25em]' : ''} py-0.5 md:py-1`}>
+                <span className="about-char inline-block origin-bottom-left will-change-transform">
+                  {char}
+                </span>
+              </span>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap">
+            {"With ".split("").map((char, i) => (
+              <span key={`w-${i}`} className={`inline-block overflow-hidden ${char === ' ' ? 'w-[0.25em]' : ''} py-0.5 md:py-1`}>
+                <span className="about-char inline-block origin-bottom-left will-change-transform">
+                  {char}
+                </span>
+              </span>
+            ))}
+            {"Excellence".split("").map((char, i) => (
+              <span key={`ex-${i}`} className="inline-block overflow-hidden py-0.5 md:py-1">
+                <span className="about-char inline-block text-orange-500 origin-bottom-left will-change-transform">
+                  {char}
+                </span>
+              </span>
+            ))}
+          </div>
         </h2>
-        <p className="text-[1.05rem] text-text-muted max-w-[560px] leading-[1.75] mb-16">
-          We are a passionate team of designers, developers, and strategists united by one mission —
-          to create digital products that leave a lasting impression.
+        
+        <p className="about-p text-base md:text-xl lg:text-2xl text-neutral-400 max-w-[800px] leading-relaxed mb-10 md:mb-16 font-light flex flex-wrap">
+          {pText.split(" ").map((word, i) => (
+            <span key={i} className="inline-block mr-[0.25em] mb-[0.1em]">
+              <span className="about-word inline-block">{word}</span>
+            </span>
+          ))}
         </p>
 
-        <div className="grid grid-cols-3 gap-6 max-[1024px]:grid-cols-2 max-[640px]:grid-cols-1">
+        <div className="about-cards-container grid grid-cols-1 md:grid-cols-3 gap-6">
           {cards.map((c, i) => (
-            <div className="bg-card border border-border rounded-default py-10 px-8 transition-all duration-300 relative overflow-hidden group hover:border-[rgba(249,115,22,0.4)] hover:-translate-y-1.5 cursor-default" key={i} id={`about-card-${i + 1}`}>
-              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(249,115,22,0.06)_0%,transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="text-[3rem] font-black text-[rgba(249,115,22,0.15)] leading-none mb-5 relative z-10">{c.num}</div>
-              <h3 className="text-[1.2rem] font-bold mb-3 relative z-10 text-white">{c.title}</h3>
-              <p className="text-text-muted text-[0.95rem] leading-[1.7] relative z-10">{c.text}</p>
+            <div key={i} className="about-card h-full">
+              <SpotlightCard className="h-full min-h-[300px]" spotlightColor="rgba(249, 115, 22, 0.15)">
+                
+                {/* Background Full-Size Number */}
+                <div 
+                  className="absolute -bottom-8 -right-4 text-[180px] text-white/5 leading-none select-none pointer-events-none"
+                  style={{ fontFamily: "'Coolvetica', sans-serif" }}
+                >
+                  {c.num}
+                </div>
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  <h3 
+                    className="text-3xl tracking-wider mb-4 text-white font-thin"
+                    style={{ fontFamily: "'Coolvetica', sans-serif" }}
+                  >
+                    {c.title}
+                  </h3>
+                  <p className="text-neutral-400 text-base md:text-lg leading-relaxed">
+                    {c.text}
+                  </p>
+                </div>
+                
+              </SpotlightCard>
             </div>
           ))}
         </div>

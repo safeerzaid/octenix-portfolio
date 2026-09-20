@@ -8,10 +8,11 @@ import Services from './components/Services'
 import FAQ      from './components/FAQ'
 import Contact  from './components/Contact'
 import Footer   from './components/Footer'
+import SmoothScroller from './components/SmoothScroller'
 
 export default function App() {
   return (
-    <>
+    <SmoothScroller>
       <Navbar />
       <Hero />
       <Strategy />
@@ -21,6 +22,6 @@ export default function App() {
       <FAQ />
       <Contact />
       <Footer />
-    </>
+    </SmoothScroller>
   )
 }

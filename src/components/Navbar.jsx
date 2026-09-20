@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import octenixLogo from '../assets/octenix_logo.png'
+import StaggeredMenu from './StaggeredMenu'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -33,18 +34,35 @@ export default function Navbar() {
     })
   }
 
+  const menuItems = [
+    { label: 'Home', ariaLabel: 'Go to home page', link: '#home' },
+    { label: 'About', ariaLabel: 'Learn about us', link: '#about' },
+    { label: 'Work', ariaLabel: 'View our work', link: '#work' },
+    { label: 'Services', ariaLabel: 'View our services', link: '#services' },
+    { label: 'FAQ', ariaLabel: 'Frequently asked questions', link: '#faq' },
+  ];
+
+  const socialItems = [
+    { label: 'Instagram', link: 'https://www.instagram.com/octenix?stkn=cHUyM2VhZTd6cXdr&utm_source=qr' },
+    { label: 'Twitter', link: 'https://twitter.com' },
+    { label: 'LinkedIn', link: 'https://www.linkedin.com/company/octenix/' }
+  ];
+
 
 
   return (
+    <>
     <header
-      className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full transition-all duration-500 ease-in-out max-[900px]:top-0 max-[900px]:block"
+      className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full transition-all duration-500 ease-in-out max-[1024px]:hidden"
     >
-      <div className="flex items-center justify-between gap-20 bg-[rgba(255,255,255,0.05)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl pl-6 pr-4 py-2 max-[900px]:w-full max-[900px]:rounded-none max-[900px]:border-x-0 max-[900px]:border-t-0 max-[900px]:px-6 max-[900px]:py-3 max-[900px]:bg-[rgba(0,0,0,0.8)]">
+      <div className="relative flex items-center justify-between gap-20 rounded-2xl pl-6 pr-4 py-2">
+        {/* Background Layer */}
+        <div className="absolute inset-0 z-10 bg-[rgba(255,255,255,0.05)] backdrop-blur-md rounded-2xl pointer-events-none"></div>
 
         {/* LEFT — Logo + Brand Name */}
         <a
           href="#home"
-          className="flex items-center gap-0.5 no-underline shrink-0"
+          className="relative z-20 flex items-center gap-0.5 no-underline shrink-0"
           onClick={() => handleNav('home')}
         >
           <img
@@ -60,7 +78,7 @@ export default function Navbar() {
 
         {/* CENTER — Navigation Links */}
         <nav
-          className={`flex items-center gap-2 max-[900px]:fixed max-[900px]:top-[70px] max-[900px]:left-0 max-[900px]:right-0 max-[900px]:flex-col max-[900px]:items-start max-[900px]:bg-black/95 max-[900px]:backdrop-blur-2xl max-[900px]:border-b max-[900px]:border-[rgba(255,255,255,0.1)] max-[900px]:rounded-none max-[900px]:p-6 max-[900px]:pt-6 max-[900px]:pb-8 max-[900px]:gap-1 max-[900px]:-translate-y-[150%] max-[900px]:translate-x-0 transition-transform duration-500 ${menuOpen ? 'max-[900px]:translate-y-0' : ''}`}
+          className="relative z-20 flex items-center gap-1"
           ref={navRef}
         >
           {links.map((link) => (
@@ -68,18 +86,25 @@ export default function Navbar() {
               key={link.id}
               data-id={link.id}
               id={`nav-${link.id}`}
-              className={`nav-link no-underline bg-none border-none cursor-pointer font-sans text-base font-normal tracking-[0.5px] text-white py-2 px-3 transition-opacity duration-300 ease-in-out hover:opacity-100 max-[900px]:text-base max-[900px]:py-3 max-[900px]:px-0 max-[900px]:w-full max-[900px]:text-left ${
-                active === link.id ? 'opacity-100 max-[900px]:opacity-100' : 'opacity-55 max-[900px]:opacity-60'
+              className={`group relative no-underline bg-none border-none cursor-pointer font-sans text-base font-normal tracking-[0.5px] text-white py-2 px-3 transition-opacity duration-300 ${
+                active === link.id ? 'opacity-100' : 'opacity-60 hover:opacity-100'
               }`}
               onClick={() => handleNav(link.id)}
             >
-              {link.label}
+              <div className="relative overflow-hidden flex items-center justify-center py-0.5 leading-none">
+                <span className="inline-block transition-transform duration-[350ms] ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-full text-neutral-300">
+                  {link.label}
+                </span>
+                <span className="absolute inline-block transition-transform duration-[350ms] ease-[cubic-bezier(0.76,0,0.24,1)] translate-y-full group-hover:translate-y-0 text-white font-medium">
+                  {link.label}
+                </span>
+              </div>
             </button>
           ))}
         </nav>
 
         {/* RIGHT — Contact + Hamburger */}
-        <div className="flex items-center gap-4">
+        <div className="relative z-20 flex items-center gap-4">
 
           <button
             className="no-underline text-[0.85rem] font-bold text-black bg-white py-2.5 px-6 rounded-lg border border-transparent cursor-pointer whitespace-nowrap hover:bg-transparent hover:text-white hover:border-white transition-all duration-300 ease-in-out"
@@ -89,21 +114,30 @@ export default function Navbar() {
             Contact Us
           </button>
 
-          <button
-            className="hidden max-[900px]:flex flex-col gap-[5px] bg-none border-none cursor-pointer p-1"
-            id="hamburger"
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <span className="block w-6 h-0.5 bg-white rounded-sm transition-all duration-300"></span>
-            <span className="block w-6 h-0.5 bg-white rounded-sm transition-all duration-300"></span>
-            <span className="block w-6 h-0.5 bg-white rounded-sm transition-all duration-300"></span>
-          </button>
-
         </div>
 
       </div>
     </header>
+
+    {/* MOBILE & TABLET NAV: StaggeredMenu */}
+    <div className="hidden max-[1024px]:block fixed inset-0 pointer-events-none z-50">
+      <StaggeredMenu
+        position="right"
+        isFixed={true}
+        items={menuItems}
+        socialItems={socialItems}
+        displaySocials
+        displayItemNumbering={true}
+        menuButtonColor="#fff"
+        openMenuButtonColor="#fff"
+        changeMenuColorOnOpen={true}
+        colors={['rgba(255,255,255,0.05)']}
+        logoUrl={octenixLogo}
+        accentColor="#fff"
+        onMenuOpen={() => console.log('Menu opened')}
+        onMenuClose={() => console.log('Menu closed')}
+      />
+    </div>
+    </>
   )
 }

@@ -1,6 +1,6 @@
 /* ── Google Fonts ── */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
-
+@import url('https://fonts.cdnfonts.com/css/coolvetica-2');
 /* ── Tailwind Directives ── */
 @tailwind base;
 @tailwind components;
@@ -31,4 +31,14 @@ body {
   color: var(--text-primary);
   overflow-x: hidden;
   line-height: 1.6;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }

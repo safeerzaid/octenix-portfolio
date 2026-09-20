@@ -1,84 +1,304 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
-  const [sent, setSent] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState({ text: '', type: '' });
+  const containerRef = useRef(null);
 
-  const handleChange = (e) =>
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Smooth slide up reveal for individual letters
+      gsap.fromTo('.contact-char',
+        { yPercent: 120, rotateZ: 5, opacity: 0 },
+        { 
+          yPercent: 0, 
+          rotateZ: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.04,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 50%'
+          }
+        }
+      );
+      
+      // Elastic pop-in for the contact button
+      gsap.fromTo('.contact-btn',
+        { scale: 0, opacity: 0, rotate: -45 },
+        {
+          scale: 1,
+          opacity: 1,
+          rotate: 0,
+          duration: 1.5,
+          ease: 'elastic.out(1, 0.4)',
+          delay: 0.8, // Slightly delayed so it pops in after the letters finish
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 50%'
+          }
+        }
+      );
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setSent(true)
-    setTimeout(() => setSent(false), 4000)
-    setForm({ name: '', email: '', subject: '', message: '' })
-  }
+  // Prevent scrolling on the main page when modal is open, and listen for external open events
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    const handleOpenModal = () => setIsModalOpen(true);
+    window.addEventListener('open-contact-modal', handleOpenModal);
+
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('open-contact-modal', handleOpenModal);
+    };
+  }, [isModalOpen]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setStatusMessage({ text: '', type: '' });
+
+    const formData = new FormData(e.target);
+    const accessKey = import.meta.env.VITE_WEB3FORMS_KEY || "9f44e411-1fa3-47b2-86ea-adacc85307e5";
+    formData.append("access_key", accessKey);
+    formData.append("subject", "New Inquiry from Octenix Website");
+    formData.append("from_name", "Octenix Portfolio Form");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatusMessage({ text: "Thank you! Your message has been sent successfully.", type: "success" });
+        e.target.reset();
+        setTimeout(() => {
+          setIsModalOpen(false);
+          setStatusMessage({ text: '', type: '' });
+        }, 2200);
+      } else {
+        setStatusMessage({ text: data.message || "Something went wrong. Please check your access key.", type: "error" });
+      }
+    } catch (error) {
+      setStatusMessage({ text: "Network error. Please try again later.", type: "error" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <section className="py-[120px] relative max-[640px]:py-[80px] bg-[#060609] overflow-hidden" id="contact">
-      <div className="max-w-[1200px] mx-auto px-8 max-[640px]:px-5 relative">
-        <div className="absolute w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(249,115,22,0.12)_0%,transparent_70%)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-        <div className="inline-block text-[0.75rem] font-bold tracking-[2px] uppercase text-orange bg-[rgba(249,115,22,0.1)] border border-[rgba(249,115,22,0.2)] py-1.5 px-4 rounded-full mb-5">Get In Touch</div>
-        <h2 className="text-[clamp(2rem,4vw,3.2rem)] font-extrabold tracking-[-1px] leading-[1.15] mb-5 text-white">
-          Let's Build Something <span className="bg-gradient-to-br from-orange via-orange-light to-[#fbbf24] bg-clip-text text-transparent">Great</span>
-        </h2>
-        <p className="text-[1.05rem] text-text-muted max-w-[560px] leading-[1.75] mb-16">
-          Ready to start your project? Drop us a message and we'll get back to you within 24 hours.
+    <section ref={containerRef} className="pt-12 md:pt-16 pb-24 md:pb-48 bg-[#050505] w-full overflow-hidden" id="contact">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
+        
+        <p className="text-neutral-400 text-lg md:text-xl font-light mb-8 md:mb-12">
+          Got a question?
         </p>
-
-        {sent && (
-          <div className="bg-[rgba(249,115,22,0.15)] border border-[rgba(249,115,22,0.4)] rounded-xl py-4 px-6 mb-6 text-orange-light font-semibold max-w-[720px] relative z-10">
-            ✦ Message sent! We'll get back to you within 24 hours.
+        
+        <div className="flex flex-col">
+          <div className="flex flex-wrap pb-4">
+            {"Want to talk".split('').map((char, i) => (
+              <span key={i} className={`inline-block overflow-hidden ${char === ' ' ? 'w-[3vw] md:w-[1.8rem] lg:w-[2.5rem]' : ''}`}>
+                <span className="contact-char inline-block text-[15vw] md:text-[6.5rem] lg:text-[10rem] font-medium leading-[0.85] tracking-tight text-white origin-bottom-left will-change-transform">
+                  {char}
+                </span>
+              </span>
+            ))}
           </div>
-        )}
-
-        <form className="max-w-[720px] flex flex-col gap-5 relative z-10" id="contactForm" onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-5 max-[640px]:grid-cols-1">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="name" className="text-[0.85rem] font-semibold text-text-muted tracking-[0.3px]">Your Name</label>
-              <input
-                type="text" id="name" name="name"
-                className="font-sans text-[0.95rem] text-white bg-[rgba(255,255,255,0.05)] border border-border rounded-xl py-3.5 px-[18px] outline-none transition-colors duration-300 placeholder:text-[rgba(255,255,255,0.25)] focus:border-orange focus:bg-[rgba(249,115,22,0.05)]"
-                placeholder="John Doe" required
-                value={form.name} onChange={handleChange}
-              />
+          
+          <div className="flex items-center gap-3 sm:gap-5 md:gap-6 lg:gap-10 mt-2 md:mt-3 lg:mt-4">
+            <div className="flex flex-wrap pb-4">
+              {"to us?".split('').map((char, i) => (
+                <span key={i} className={`inline-block overflow-hidden ${char === ' ' ? 'w-[3vw] md:w-[1.8rem] lg:w-[2.5rem]' : ''}`}>
+                  <span className="contact-char inline-block text-[15vw] md:text-[6.5rem] lg:text-[10rem] font-medium leading-[0.85] tracking-tight text-orange-500 origin-bottom-left will-change-transform">
+                    {char}
+                  </span>
+                </span>
+              ))}
             </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="text-[0.85rem] font-semibold text-text-muted tracking-[0.3px]">Email Address</label>
-              <input
-                type="email" id="email" name="email"
-                className="font-sans text-[0.95rem] text-white bg-[rgba(255,255,255,0.05)] border border-border rounded-xl py-3.5 px-[18px] outline-none transition-colors duration-300 placeholder:text-[rgba(255,255,255,0.25)] focus:border-orange focus:bg-[rgba(249,115,22,0.05)]"
-                placeholder="john@company.com" required
-                value={form.email} onChange={handleChange}
-              />
+            
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="contact-btn group relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-36 lg:h-36 rounded-full bg-white flex items-center justify-center shrink-0 cursor-pointer overflow-hidden will-change-transform"
+            >
+              {/* GSAP-style Liquid Fill from Bottom */}
+              <div className="absolute w-[150%] h-[150%] left-[-25%] top-[100%] bg-orange-500 rounded-[45%] transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-[85%] z-0"></div>
+
+              <div className="relative z-10 w-6 h-6 sm:w-7 sm:h-7 md:w-7 md:h-7 lg:w-12 lg:h-12 overflow-hidden flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-x-[150%] group-hover:-translate-y-[150%]">
+                  <svg 
+                    viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" 
+                    className="w-full h-full transition-colors duration-300 group-hover:stroke-white"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] -translate-x-[150%] translate-y-[150%] group-hover:translate-x-0 group-hover:translate-y-0">
+                  <svg 
+                    viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" 
+                    className="w-full h-full transition-colors duration-300 group-hover:stroke-white"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Gray Backdrop for Contrast */}
+      <div 
+        className={`fixed inset-0 z-40 bg-neutral-900 transition-opacity duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+          isModalOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setIsModalOpen(false)}
+      />
+
+      {/* Full Screen Slide-Up Curved Modal (Spacious & Breathable) */}
+      <div 
+        className={`fixed inset-x-0 bottom-0 top-4 md:top-10 lg:top-12 z-50 bg-[#050505] text-white transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+          isModalOpen ? 'translate-y-0' : 'translate-y-full'
+        } rounded-t-[40px] md:rounded-t-[60px] overflow-y-auto md:overflow-hidden flex flex-col shadow-2xl`}
+      >
+        {/* Close Button */}
+        <button 
+          onClick={() => setIsModalOpen(false)}
+          className="absolute top-6 right-6 md:top-10 md:right-12 w-12 h-12 md:w-14 md:h-14 rounded-full border border-neutral-700/80 flex items-center justify-center hover:bg-neutral-800 transition-colors z-50 cursor-pointer"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        {/* Modal Content - Spacious, Airy, and Breathable */}
+        <div className="w-full h-full max-w-[1360px] mx-auto px-8 md:px-14 lg:px-20 flex items-center justify-center relative py-12 md:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 xl:gap-32 w-full items-center">
+            
+            {/* Left Column */}
+            <div className="flex flex-col justify-center">
+              <div>
+                <h2 className="text-4xl md:text-6xl xl:text-7xl font-medium tracking-tight text-orange-500 leading-[1]">
+                  Get in touch.
+                </h2>
+                <h2 className="text-2xl md:text-3xl xl:text-4xl font-light tracking-tight text-white leading-[1.2] mt-2 md:mt-3 max-w-md">
+                  We aim to reply within 1 business day.
+                </h2>
+              </div>
             </div>
-          </div>
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="subject" className="text-[0.85rem] font-semibold text-text-muted tracking-[0.3px]">Subject</label>
-            <input
-              type="text" id="subject" name="subject"
-              className="font-sans text-[0.95rem] text-white bg-[rgba(255,255,255,0.05)] border border-border rounded-xl py-3.5 px-[18px] outline-none transition-colors duration-300 placeholder:text-[rgba(255,255,255,0.25)] focus:border-orange focus:bg-[rgba(249,115,22,0.05)]"
-              placeholder="Project Inquiry"
-              value={form.subject} onChange={handleChange}
-            />
-          </div>
+            {/* Right Column (Form) */}
+            <div className="flex flex-col justify-center">
+              <h3 className="text-base md:text-lg font-light text-neutral-400 mb-8 md:mb-10">
+                Please fill in the form below.
+              </h3>
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="message" className="text-[0.85rem] font-semibold text-text-muted tracking-[0.3px]">Message</label>
-            <textarea
-              id="message" name="message" rows="5"
-              className="font-sans text-[0.95rem] text-white bg-[rgba(255,255,255,0.05)] border border-border rounded-xl py-3.5 px-[18px] outline-none transition-colors duration-300 resize-y placeholder:text-[rgba(255,255,255,0.25)] focus:border-orange focus:bg-[rgba(249,115,22,0.05)]"
-              placeholder="Tell us about your project..." required
-              value={form.message} onChange={handleChange}
-            />
-          </div>
+              <form className="flex flex-col gap-6 md:gap-7" onSubmit={handleSubmit}>
+                <input 
+                  type="text" 
+                  name="name"
+                  placeholder="Name *" 
+                  className="w-full bg-transparent border-b border-neutral-800 pb-4 md:pb-5 text-base md:text-lg outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light" 
+                  required 
+                />
+                
+                <input 
+                  type="email" 
+                  name="email"
+                  placeholder="E-mail *" 
+                  className="w-full bg-transparent border-b border-neutral-800 pb-4 md:pb-5 text-base md:text-lg outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light" 
+                  required 
+                />
+                
+                <textarea 
+                  name="message"
+                  placeholder="Your message" 
+                  rows="2" 
+                  className="w-full bg-transparent border-b border-neutral-800 pb-4 md:pb-5 text-base md:text-lg outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light resize-none" 
+                  required
+                />
 
-          <button type="submit" className="no-underline inline-flex justify-center items-center gap-2 font-sans text-[0.95rem] font-bold text-white bg-gradient-to-br from-orange-dark to-orange py-3.5 px-8 w-full rounded-default border-none cursor-pointer transition-all duration-200 shadow-[0_6px_30px_rgba(249,115,22,0.4)] hover:-translate-y-[3px] hover:shadow-[0_12px_40px_rgba(249,115,22,0.55)]" id="btn-submit">
-            Send Message ✦
-          </button>
-        </form>
+                <label className="flex items-start gap-3.5 cursor-pointer mt-2">
+                  <input type="checkbox" name="subscribe_updates" className="mt-1 w-4 h-4 accent-neutral-500 shrink-0 cursor-pointer" />
+                  <span className="text-neutral-400 text-xs md:text-sm font-light leading-relaxed">
+                    Would you like to receive updates from us? (We promise no spam!)
+                  </span>
+                </label>
+
+                {/* Status Message Display */}
+                {statusMessage.text && (
+                  <div className={`p-4 rounded-xl text-sm ${statusMessage.type === 'success' ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-800/50' : 'bg-rose-950/60 text-rose-300 border border-rose-800/50'}`}>
+                    {statusMessage.text}
+                  </div>
+                )}
+                
+                <div className="pt-3">
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="group relative bg-white text-black py-3.5 md:py-4 px-8 md:px-10 rounded-full font-medium text-base flex items-center gap-3 self-start cursor-pointer overflow-hidden disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {/* GSAP-style Liquid Fill from Bottom */}
+                    <div className="absolute w-[150%] h-[150%] left-[-25%] top-[100%] bg-orange-500 rounded-[45%] transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-[85%] z-0"></div>
+
+                    <div className="relative z-10 overflow-hidden flex items-center justify-center">
+                      <span className="absolute transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-[150%] text-black font-medium">
+                        {isSubmitting ? "Sending..." : "Submit"}
+                      </span>
+                      <span className="absolute transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] translate-y-[150%] group-hover:translate-y-0 text-white font-medium">
+                        {isSubmitting ? "Sending..." : "Submit"}
+                      </span>
+                      <span className="opacity-0 invisible font-medium">
+                        {isSubmitting ? "Sending..." : "Submit"}
+                      </span>
+                    </div>
+                    
+                    <div className="relative z-10 w-4 h-4 md:w-5 md:h-5 overflow-hidden flex items-center justify-center">
+                      <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-x-[150%] group-hover:-translate-y-[150%]">
+                        <svg 
+                          viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
+                          className="w-full h-full transition-colors duration-300 text-black group-hover:stroke-white"
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] -translate-x-[150%] translate-y-[150%] group-hover:translate-x-0 group-hover:translate-y-0">
+                        <svg 
+                          viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
+                          className="w-full h-full transition-colors duration-300 text-black group-hover:stroke-white"
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
       </div>
     </section>
-  )
+  );
 }
