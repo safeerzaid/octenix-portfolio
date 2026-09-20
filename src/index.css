@@ -42,3 +42,17 @@ body {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
+
+/* Form inputs & caret normalization */
+input, textarea, select, button {
+  font-family: inherit;
+}
+
+input, textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  line-height: 1.5;
+  caret-color: #f97316;
+}
+

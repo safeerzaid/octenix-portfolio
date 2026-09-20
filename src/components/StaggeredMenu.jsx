@@ -345,6 +345,8 @@ export const StaggeredMenu = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, [closeOnClickAway, open, closeMenu]);
+
   React.useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';

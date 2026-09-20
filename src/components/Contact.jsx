@@ -174,9 +174,9 @@ export default function Contact() {
 
       {/* Full Screen Slide-Up Curved Modal (Spacious & Breathable) */}
       <div 
-        className={`fixed inset-x-0 bottom-0 top-4 md:top-10 lg:top-12 z-50 bg-[#050505] text-white transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        className={`fixed inset-x-0 bottom-0 top-3 md:top-10 lg:top-12 z-50 bg-[#050505] text-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           isModalOpen ? 'translate-y-0' : 'translate-y-full'
-        } rounded-t-[40px] md:rounded-t-[60px] overflow-y-auto md:overflow-hidden flex flex-col shadow-2xl`}
+        } rounded-t-[32px] md:rounded-t-[60px] overflow-y-auto flex flex-col shadow-2xl`}
       >
         {/* Close Button */}
         <button 
@@ -190,7 +190,7 @@ export default function Contact() {
         </button>
 
         {/* Modal Content - Spacious, Airy, and Breathable */}
-        <div className="w-full h-full max-w-[1360px] mx-auto px-8 md:px-14 lg:px-20 flex items-center justify-center relative py-12 md:py-16">
+        <div className="w-full min-h-full max-w-[1360px] mx-auto px-6 sm:px-8 md:px-14 lg:px-20 flex flex-col justify-start md:justify-center items-stretch relative py-12 md:py-16 my-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 xl:gap-32 w-full items-center">
             
             {/* Left Column */}
@@ -212,29 +212,35 @@ export default function Contact() {
               </h3>
 
               <form className="flex flex-col gap-6 md:gap-7" onSubmit={handleSubmit}>
-                <input 
-                  type="text" 
-                  name="name"
-                  placeholder="Name *" 
-                  className="w-full bg-transparent border-b border-neutral-800 pb-4 md:pb-5 text-base md:text-lg outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light" 
-                  required 
-                />
+                <div className="relative w-full">
+                  <input 
+                    type="text" 
+                    name="name"
+                    placeholder="Name *" 
+                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-base md:text-lg leading-normal outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light" 
+                    required 
+                  />
+                </div>
                 
-                <input 
-                  type="email" 
-                  name="email"
-                  placeholder="E-mail *" 
-                  className="w-full bg-transparent border-b border-neutral-800 pb-4 md:pb-5 text-base md:text-lg outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light" 
-                  required 
-                />
+                <div className="relative w-full">
+                  <input 
+                    type="email" 
+                    name="email"
+                    placeholder="E-mail *" 
+                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-base md:text-lg leading-normal outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light" 
+                    required 
+                  />
+                </div>
                 
-                <textarea 
-                  name="message"
-                  placeholder="Your message" 
-                  rows="2" 
-                  className="w-full bg-transparent border-b border-neutral-800 pb-4 md:pb-5 text-base md:text-lg outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light resize-none" 
-                  required
-                />
+                <div className="relative w-full">
+                  <textarea 
+                    name="message"
+                    placeholder="Your message" 
+                    rows="3" 
+                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-base md:text-lg leading-relaxed outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light resize-none block" 
+                    required
+                  />
+                </div>
 
                 <label className="flex items-start gap-3.5 cursor-pointer mt-2">
                   <input type="checkbox" name="subscribe_updates" className="mt-1 w-4 h-4 accent-neutral-500 shrink-0 cursor-pointer" />
