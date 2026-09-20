@@ -177,6 +177,7 @@ export default function Contact() {
         className={`fixed inset-x-0 bottom-0 top-3 md:top-10 lg:top-12 z-50 bg-[#050505] text-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           isModalOpen ? 'translate-y-0' : 'translate-y-full'
         } rounded-t-[32px] md:rounded-t-[60px] overflow-y-auto flex flex-col shadow-2xl`}
+        style={isModalOpen ? { transform: 'none' } : undefined}
       >
         {/* Close Button */}
         <button 
@@ -207,17 +208,17 @@ export default function Contact() {
 
             {/* Right Column (Form) */}
             <div className="flex flex-col justify-center">
-              <h3 className="text-base md:text-lg font-light text-neutral-400 mb-8 md:mb-10">
+              <h3 className="text-base md:text-lg font-light text-neutral-400 mb-6 md:mb-8">
                 Please fill in the form below.
               </h3>
 
-              <form className="flex flex-col gap-6 md:gap-7" onSubmit={handleSubmit}>
+              <form className="flex flex-col gap-4 md:gap-5" onSubmit={handleSubmit}>
                 <div className="relative w-full">
                   <input 
                     type="text" 
                     name="name"
                     placeholder="Name *" 
-                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-base md:text-lg leading-normal outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light" 
+                    className="w-full bg-white/[0.03] hover:bg-white/[0.05] focus:bg-white/[0.07] border border-white/10 focus:border-orange-500 rounded-xl px-4 py-3.5 text-base md:text-lg leading-normal outline-none transition-all placeholder:text-neutral-500 text-white font-light block" 
                     required 
                   />
                 </div>
@@ -227,7 +228,7 @@ export default function Contact() {
                     type="email" 
                     name="email"
                     placeholder="E-mail *" 
-                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-base md:text-lg leading-normal outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light" 
+                    className="w-full bg-white/[0.03] hover:bg-white/[0.05] focus:bg-white/[0.07] border border-white/10 focus:border-orange-500 rounded-xl px-4 py-3.5 text-base md:text-lg leading-normal outline-none transition-all placeholder:text-neutral-500 text-white font-light block" 
                     required 
                   />
                 </div>
@@ -237,7 +238,7 @@ export default function Contact() {
                     name="message"
                     placeholder="Your message" 
                     rows="3" 
-                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-base md:text-lg leading-relaxed outline-none focus:border-white transition-colors placeholder:text-neutral-600 text-white font-light resize-none block" 
+                    className="w-full bg-white/[0.03] hover:bg-white/[0.05] focus:bg-white/[0.07] border border-white/10 focus:border-orange-500 rounded-xl px-4 py-3.5 text-base md:text-lg leading-relaxed outline-none transition-all placeholder:text-neutral-500 text-white font-light resize-none block" 
                     required
                   />
                 </div>
