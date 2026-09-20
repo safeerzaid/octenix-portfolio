@@ -59,16 +59,16 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-[800px] flex-1 flex flex-col items-center">
+      <div className="relative z-10 max-w-[850px] lg:max-w-[960px] flex-1 flex flex-col items-center">
         <h1 
-          className="text-[2.2rem] sm:text-[2.6rem] md:text-[clamp(3rem,5vw,5rem)] font-thin leading-[1.12] mb-4 md:mb-6 animate-fadeUp text-white whitespace-normal md:whitespace-nowrap" 
+          className="text-[2.25rem] sm:text-[2.75rem] md:text-[3.5rem] lg:text-[4.75rem] xl:text-[5.5rem] font-thin leading-[1.12] mb-4 md:mb-6 animate-fadeUp text-white whitespace-normal md:whitespace-nowrap" 
           style={{ animationDelay: '0.4s', fontFamily: '"Coolvetica", sans-serif', fontWeight: 100 }}
         >
           Engineered for <br className="block md:hidden" /> your <span className="text-white">Business.</span>
         </h1>
 
         <p 
-          className="text-[0.95rem] sm:text-[1.05rem] md:text-[1.35rem] text-white/70 leading-[1.5] md:leading-[1.6] mb-5 md:mb-7 animate-fadeUp max-w-[92%] sm:max-w-[85%] md:max-w-[800px] mx-auto w-full" 
+          className="text-[0.98rem] sm:text-[1.1rem] md:text-[1.3rem] lg:text-[1.4rem] text-white/75 leading-[1.55] md:leading-[1.65] mb-5 md:mb-7 animate-fadeUp max-w-[92%] sm:max-w-[85%] md:max-w-[850px] mx-auto w-full" 
           style={{ animationDelay: '0.6s' }}
         >
           Octenix builds technology solutions that solve business challenges, <br className="hidden md:block" /> streamline operations, and drive measurable growth.
