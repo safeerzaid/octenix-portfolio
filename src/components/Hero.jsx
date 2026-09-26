@@ -82,7 +82,7 @@ export default function Hero() {
           className="hidden md:block lg:hidden text-[1.05rem] sm:text-[1.2rem] md:text-[1.38rem] lg:text-[1.5rem] text-white/75 leading-[1.55] md:leading-[1.65] mb-6 md:mb-8 animate-fadeUp max-w-[95%] sm:max-w-[88%] md:max-w-[900px] mx-auto w-full" 
           style={{ animationDelay: '0.6s' }}
         >
-          Octenix builds technology solutions that solve business challenges, streamline operations, and drive measurable growth.
+          Octenix builds technology solutions that solve business challenges, <br /> streamline operations, and drive measurable growth.
         </p>
 
         {/* Desktop (LG and above) */}
