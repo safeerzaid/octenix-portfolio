@@ -1,6 +1,28 @@
+import { useState } from 'react';
 import project1Image from '../assets/project 1.png';
 import project2Image from '../assets/project 2 (1).png';
 import project3Image from '../assets/project 3.png';
+
+const ProjectImage = ({ project }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-[#111111]">
+        <span className="text-neutral-600 text-sm">Image: {project.title}</span>
+      </div>
+    );
+  }
+
+  return (
+    <img 
+      src={project.image} 
+      alt={project.title} 
+      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      onError={() => setHasError(true)}
+    />
+  );
+};
 
 export default function Work() {
   const projects = [
@@ -30,9 +52,8 @@ export default function Work() {
         {/* Header row */}
         <div className="flex flex-col md:flex-row md:items-end gap-4 mb-8 md:mb-10 lg:mb-12">
           <h2 
-            className="text-4xl md:text-5xl lg:text-7xl font-thin text-white tracking-tight"
+            className="text-4xl md:text-5xl lg:text-7xl font-thin text-white tracking-tight font-coolvetica"
             style={{ 
-              fontFamily: "'Coolvetica', sans-serif", 
               fontWeight: 100,
               WebkitTextStroke: '1.5px #000000'
             }}
@@ -50,17 +71,7 @@ export default function Work() {
             >
               {/* Image */}
               <div className="w-full aspect-video mb-5 relative bg-[#111111] overflow-hidden rounded-lg md:rounded-none">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  onError={(e) => {
-                    // Fallback visual if images aren't uploaded yet
-                    e.target.style.opacity = '0';
-                    e.target.parentElement.classList.add('flex', 'items-center', 'justify-center');
-                    e.target.parentElement.innerHTML = `<span class="text-neutral-600 text-sm">Image: ${project.title}</span>`;
-                  }}
-                />
+                <ProjectImage project={project} />
               </div>
 
               {/* Title row */}

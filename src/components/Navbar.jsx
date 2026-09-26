@@ -4,18 +4,8 @@ import octenixLogo from '../assets/octenix_logo.png'
 import StaggeredMenu from './StaggeredMenu'
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [active, setActive] = useState('home')
   const navRef = useRef(null)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-
-    window.addEventListener('scroll', onScroll)
-
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   const links = [
     { id: 'home', label: 'Home' },
@@ -27,7 +17,6 @@ export default function Navbar() {
 
   const handleNav = (id) => {
     setActive(id)
-    setMenuOpen(false)
 
     document.getElementById(id)?.scrollIntoView({
       behavior: 'smooth',

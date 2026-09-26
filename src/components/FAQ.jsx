@@ -37,8 +37,7 @@ export default function FAQ() {
           {/* Left Column - Large Title */}
           <div className="lg:w-1/3">
             <h2 
-              className="text-5xl md:text-7xl font-thin text-white tracking-wide lg:sticky lg:top-32"
-              style={{ fontFamily: "'Coolvetica', sans-serif" }}
+              className="text-5xl md:text-7xl font-thin text-white tracking-wide lg:sticky lg:top-32 font-coolvetica"
             >
               FAQ
             </h2>

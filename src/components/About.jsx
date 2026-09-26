@@ -87,8 +87,8 @@ export default function About() {
       <div className="max-w-[1200px] mx-auto px-6 md:px-8">
         
         <h2 
-          className="about-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-thin tracking-wide leading-[1.15] mb-6 md:mb-8 text-white flex flex-col"
-          style={{ fontFamily: "'Coolvetica', sans-serif", fontWeight: 100, WebkitTextStroke: '0.5px #000' }}
+          className="about-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-thin tracking-wide leading-[1.15] mb-6 md:mb-8 text-white flex flex-col font-coolvetica"
+          style={{ fontWeight: 100, WebkitTextStroke: '0.5px #000' }}
         >
           <div className="flex flex-wrap">
             {"A Team Obsessed".split("").map((char, i) => (
@@ -133,16 +133,14 @@ export default function About() {
                 
                 {/* Background Full-Size Number */}
                 <div 
-                  className="absolute -bottom-8 -right-4 text-[180px] text-white/5 leading-none select-none pointer-events-none"
-                  style={{ fontFamily: "'Coolvetica', sans-serif" }}
+                  className="absolute -bottom-8 -right-4 text-[180px] text-white/5 leading-none select-none pointer-events-none font-coolvetica"
                 >
                   {c.num}
                 </div>
                 
                 <div className="relative z-10 flex flex-col h-full">
                   <h3 
-                    className="text-3xl tracking-wider mb-4 text-white font-thin"
-                    style={{ fontFamily: "'Coolvetica', sans-serif" }}
+                    className="text-3xl tracking-wider mb-4 text-white font-thin font-coolvetica"
                   >
                     {c.title}
                   </h3>

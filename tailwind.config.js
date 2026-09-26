@@ -23,6 +23,7 @@ export default {
       fontFamily: {
         sans: ['DM Sans', 'sans-serif'],
         outfit: ['Outfit', 'sans-serif'],
+        coolvetica: ['Coolvetica', 'sans-serif'],
       },
       spacing: {
         'nav-h': '80px',

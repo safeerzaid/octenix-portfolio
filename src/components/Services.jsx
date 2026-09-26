@@ -233,11 +233,10 @@ export default function Services() {
                 }}
               >
                 <h3 
-                  className={`font-thin tracking-tight mb-2 text-white leading-tight ${
+                  className={`font-thin tracking-tight mb-2 text-white leading-tight font-coolvetica ${
                     isTablet ? 'text-2xl md:text-3xl' : 'text-3xl lg:text-6xl mb-4'
                   }`}
                   style={{ 
-                    fontFamily: "'Coolvetica', sans-serif", 
                     fontWeight: 100,
                     WebkitTextStroke: '1.5px #050505'
                   }}

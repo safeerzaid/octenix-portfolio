@@ -72,7 +72,15 @@ export default function Contact() {
     setStatusMessage({ text: '', type: '' });
 
     const formData = new FormData(e.target);
-    const accessKey = import.meta.env.VITE_WEB3FORMS_KEY || "9f44e411-1fa3-47b2-86ea-adacc85307e5";
+    const accessKey = import.meta.env.VITE_WEB3FORMS_KEY;
+    
+    if (!accessKey) {
+      console.warn("VITE_WEB3FORMS_KEY is missing from environment variables.");
+      setStatusMessage({ text: "Form submission is currently unavailable.", type: "error" });
+      setIsSubmitting(false);
+      return;
+    }
+
     formData.append("access_key", accessKey);
     formData.append("subject", "New Inquiry from Octenix Website");
     formData.append("from_name", "Octenix Portfolio Form");

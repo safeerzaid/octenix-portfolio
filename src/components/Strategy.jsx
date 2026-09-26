@@ -58,7 +58,7 @@ export default function Strategy() {
   return (
     <section className="min-h-[70vh] bg-black flex flex-col justify-start items-start pt-24 sm:pt-28 md:pt-16 lg:pt-20 pb-16 md:pb-20 px-6 md:px-8 lg:px-[10vw] w-full">
       <div className="max-w-[1280px] w-full mx-auto">
-        <p ref={textRef} className="text-[clamp(1.5rem,3.5vw,3rem)] font-thin leading-[1.3] text-white max-w-[1100px] text-left mb-20 sm:mb-24 md:mb-14 lg:mb-20 flex flex-wrap" style={{ fontFamily: '"Coolvetica", sans-serif', fontWeight: 100 }}>
+        <p ref={textRef} className="text-[clamp(1.5rem,3.5vw,3rem)] font-thin leading-[1.3] text-white max-w-[1100px] text-left mb-20 sm:mb-24 md:mb-14 lg:mb-20 flex flex-wrap font-coolvetica" style={{ fontWeight: 100 }}>
           {textToAnimate.split(" ").map((word, i) => (
             <span key={i} className="inline-block mr-[0.25em] mb-[0.1em]">
               <span className="word-inner inline-block">{word}</span>
