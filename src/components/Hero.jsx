@@ -73,7 +73,7 @@ export default function Hero() {
           className="text-[1.05rem] sm:text-[1.2rem] md:text-[1.38rem] lg:text-[1.5rem] text-white/75 leading-[1.55] md:leading-[1.65] mb-6 md:mb-8 animate-fadeUp max-w-[95%] sm:max-w-[88%] md:max-w-[900px] mx-auto w-full" 
           style={{ animationDelay: '0.6s' }}
         >
-          Octenix builds technology solutions that solve business challenges<span className="inline sm:hidden">.</span><span className="hidden sm:inline">, <br className="hidden md:block" /> streamline operations, and drive measurable growth.</span>
+          Octenix builds technology solutions that solve business challenges, <br className="hidden md:block" /> streamline operations, and drive measurable growth.
         </p>
 
         <div className="flex gap-4 flex-wrap mb-4 sm:mb-6 md:mb-[60px] animate-fadeUp justify-center max-[1024px]:justify-center" style={{ animationDelay: '0.8s' }}>
