@@ -15,7 +15,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center text-center px-[10vw] relative overflow-hidden gap-10 pt-nav-h max-[1024px]:flex-col max-[1024px]:px-8 max-[1024px]:pt-[150px] max-[1024px]:pb-16 max-[640px]:min-h-[76vh] max-[640px]:pt-[125px] max-[640px]:pb-12 max-[640px]:px-6 max-[1024px]:text-center" id="home">
+    <section className="min-h-[65vh] md:min-h-[75vh] lg:min-h-screen flex items-center justify-center text-center px-[10vw] relative overflow-hidden gap-10 pt-nav-h max-[1024px]:flex-col max-[1024px]:px-8 max-[1024px]:pt-[150px] max-[1024px]:pb-16 max-[640px]:pt-[125px] max-[640px]:pb-12 max-[640px]:px-6 max-[1024px]:text-center" id="home">
       {/* Background decoration: AeroShards on Desktop, Aurora on Tablet & Mobile or no WebGPU */}
       <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
         {(isMobile || !hasWebGPU) ? (
@@ -63,7 +63,7 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-[900px] lg:max-w-[1050px] flex-1 flex flex-col items-center">
         <h1 
-          className="text-[2.6rem] sm:text-[3.2rem] md:text-[4.2rem] lg:text-[5.2rem] xl:text-[6rem] font-thin leading-[1.1] mb-4 md:mb-6 animate-fadeUp text-white whitespace-normal md:whitespace-nowrap font-coolvetica" 
+          className="text-[2.6rem] sm:text-[3.2rem] md:text-[4.2rem] lg:text-[4.5rem] xl:text-[4.8rem] font-thin leading-[1.1] mb-4 md:mb-6 animate-fadeUp text-white whitespace-normal md:whitespace-nowrap font-coolvetica" 
           style={{ animationDelay: '0.4s', fontWeight: 100 }}
         >
           Engineered for <br className="block md:hidden" /> your <span className="text-white">Business.</span>
