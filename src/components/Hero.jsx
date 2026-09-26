@@ -61,7 +61,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-[900px] lg:max-w-[1050px] flex-1 flex flex-col items-center">
+      <div className="relative z-10 max-w-[900px] lg:max-w-[1050px] flex-1 flex flex-col items-center justify-center sm:justify-start">
         <h1 
           className="text-[2.2rem] sm:text-[3.2rem] md:text-[4.2rem] lg:text-[4.5rem] xl:text-[4.8rem] font-thin leading-[1.1] mb-4 md:mb-6 animate-fadeUp text-white whitespace-normal md:whitespace-nowrap font-coolvetica" 
           style={{ animationDelay: '0.4s', fontWeight: 100 }}
