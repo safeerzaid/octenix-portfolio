@@ -55,24 +55,43 @@ export default function Services() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Cache layout properties to avoid forced reflows during scroll
+  const layoutCache = useRef({ top: 0, height: 0, windowHeight: 0 });
+
+  useEffect(() => {
+    const updateCache = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      layoutCache.current = {
+        top: rect.top + window.scrollY,
+        height: rect.height,
+        windowHeight: window.innerHeight
+      };
+    };
+    
+    updateCache();
+    // Use a small timeout to ensure DOM is fully rendered before caching
+    setTimeout(updateCache, 100);
+    window.addEventListener('resize', updateCache);
+    return () => window.removeEventListener('resize', updateCache);
+  }, []);
+
   // Handle smooth scroll interpolation
   useEffect(() => {
     let animationFrame;
     
     const updateProgress = () => {
-      if (!containerRef.current) return;
-      
-      // READ phase (batched at start of frame)
-      const rect = containerRef.current.getBoundingClientRect();
-      const scrollHeight = rect.height - window.innerHeight;
+      const { top, height, windowHeight } = layoutCache.current;
+      const scrollHeight = height - windowHeight;
+      const currentTop = top - window.scrollY;
       
       let newProgress = 0;
-      if (rect.top > 0) {
+      if (currentTop > 0) {
         newProgress = 0;
-      } else if (rect.top < -scrollHeight) {
+      } else if (currentTop < -scrollHeight) {
         newProgress = 1;
       } else {
-        newProgress = -rect.top / scrollHeight;
+        newProgress = -currentTop / scrollHeight;
       }
       targetProgress.current = newProgress;
 
