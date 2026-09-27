@@ -1,14 +1,46 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
 import growthSystemsImg from '../assets/growth-systems.webp'
 import businessNeedsUsImg from '../assets/business-needs-us.webp'
 
+gsap.registerPlugin(ScrollTrigger)
+
 export default function Strategy() {
   const textRef = useRef(null)
   const prefersReducedMotion = useReducedMotion();
 
-
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const words = gsap.utils.toArray('.word-inner');
+      
+      if (prefersReducedMotion) {
+        gsap.set(words, { opacity: 1 });
+        return;
+      }
+      
+      gsap.fromTo(words, 
+        { 
+          opacity: 0.15
+        },
+        {
+          opacity: 1,
+          stagger: 0.1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: textRef.current,
+            start: "top 85%",
+            end: "bottom 60%",
+            scrub: true,
+          }
+        }
+      );
+    }, textRef);
+    
+    return () => ctx.revert(); // Cleanup on unmount
+  }, [])
 
   const cards = [
     {
@@ -33,8 +65,12 @@ export default function Strategy() {
   return (
     <section className="min-h-[70vh] bg-black flex flex-col justify-start items-start pt-24 sm:pt-28 md:pt-16 lg:pt-20 pb-16 md:pb-20 px-6 md:px-8 lg:px-[10vw] w-full">
       <div className="max-w-[1280px] w-full mx-auto">
-        <p ref={textRef} className="text-[clamp(1.5rem,3.5vw,3rem)] leading-[1.3] text-white max-w-[1100px] text-left mb-20 sm:mb-24 md:mb-14 lg:mb-20 font-coolvetica">
-          {textToAnimate}
+        <p ref={textRef} className="text-[clamp(1.5rem,3.5vw,3rem)] leading-[1.3] text-white max-w-[1100px] text-left mb-20 sm:mb-24 md:mb-14 lg:mb-20 flex flex-wrap font-coolvetica">
+          {textToAnimate.split(" ").map((word, i) => (
+            <span key={i} className="inline-block mr-[0.25em] mb-[0.1em]">
+              <span className="word-inner inline-block">{word}</span>
+            </span>
+          ))}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 lg:gap-6 w-full items-stretch">

@@ -12,11 +12,8 @@ export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    // Basic heuristic to detect mobile or low-end devices
-    const lowEnd = 
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
-      prefersReducedMotion;
+    // Basic heuristic to detect low-end devices, but we want to allow WebGL on modern mobile
+    const lowEnd = prefersReducedMotion;
     setIsLowEnd(lowEnd);
   }, [prefersReducedMotion]);
 
@@ -44,7 +41,7 @@ export default function Hero() {
           <Suspense fallback={null}>
           {(isMobile || !hasWebGPU) ? (
             <Aurora
-              colorStops={["#f0a672", "#cf5d0e", "#f1873e"]}
+              colorStops={["#f28f4a", "#9e4405", "#e68d4f"]}
               blend={0.5}
               amplitude={prefersReducedMotion ? 0 : 1.0}
               speed={prefersReducedMotion ? 0 : 1}
@@ -89,33 +86,36 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-[900px] lg:max-w-[1050px] flex-1 flex flex-col items-center justify-center sm:justify-start md:justify-center lg:justify-start">
         <h1 
-          className="text-[2.2rem] sm:text-[3.2rem] md:text-[4.2rem] lg:text-[4.5rem] xl:text-[4.8rem] leading-[1.1] mb-4 md:mb-6 text-white whitespace-normal md:whitespace-nowrap font-coolvetica" 
+          className="text-[2.2rem] sm:text-[3.2rem] md:text-[4.2rem] lg:text-[4.5rem] xl:text-[4.8rem] leading-[1.1] mb-4 md:mb-6 animate-fadeUp text-white whitespace-normal md:whitespace-nowrap font-coolvetica" 
         >
           Engineered for <br className="block md:hidden" /> your <span className="text-white">Business.</span>
         </h1>
 
         {/* Mobile (and SM) */}
         <p 
-          className="block md:hidden text-[1.05rem] sm:text-[1.2rem] md:text-[1.38rem] lg:text-[1.5rem] text-white/75 leading-[1.55] md:leading-[1.65] mb-6 md:mb-8 max-w-[95%] sm:max-w-[88%] md:max-w-[900px] mx-auto w-full" 
+          className="block md:hidden text-[1.05rem] sm:text-[1.2rem] md:text-[1.38rem] lg:text-[1.5rem] text-white/75 leading-[1.55] md:leading-[1.65] mb-6 md:mb-8 animate-fadeUp max-w-[95%] sm:max-w-[88%] md:max-w-[900px] mx-auto w-full" 
+          style={{ animationDelay: '0.2s' }}
         >
           Octenix builds technology solutions that solve business challenges<span className="inline sm:hidden">.</span><span className="hidden sm:inline">, streamline operations, and drive measurable growth.</span>
         </p>
 
         {/* Tablet (MD only) */}
         <p 
-          className="hidden md:block lg:hidden text-[1.05rem] sm:text-[1.2rem] md:text-[1.38rem] lg:text-[1.5rem] text-white/75 leading-[1.55] md:leading-[1.65] mb-6 md:mb-8 max-w-[95%] sm:max-w-[88%] md:max-w-[900px] mx-auto w-full" 
+          className="hidden md:block lg:hidden text-[1.05rem] sm:text-[1.2rem] md:text-[1.38rem] lg:text-[1.5rem] text-white/75 leading-[1.55] md:leading-[1.65] mb-6 md:mb-8 animate-fadeUp max-w-[95%] sm:max-w-[88%] md:max-w-[900px] mx-auto w-full" 
+          style={{ animationDelay: '0.2s' }}
         >
           Octenix builds technology solutions that solve business challenges, <br /> streamline operations, and drive measurable growth.
         </p>
 
         {/* Desktop (LG and above) */}
         <p 
-          className="hidden lg:block text-[1.05rem] sm:text-[1.2rem] md:text-[1.38rem] lg:text-[1.5rem] text-white/75 leading-[1.55] md:leading-[1.65] mb-6 md:mb-8 max-w-[95%] sm:max-w-[88%] md:max-w-[900px] mx-auto w-full" 
+          className="hidden lg:block text-[1.05rem] sm:text-[1.2rem] md:text-[1.38rem] lg:text-[1.5rem] text-white/75 leading-[1.55] md:leading-[1.65] mb-6 md:mb-8 animate-fadeUp max-w-[95%] sm:max-w-[88%] md:max-w-[900px] mx-auto w-full" 
+          style={{ animationDelay: '0.2s' }}
         >
           Octenix builds technology solutions that solve business challenges, <br /> streamline operations, and drive measurable growth.
         </p>
 
-        <div className="flex gap-4 flex-wrap mb-4 sm:mb-6 md:mb-[60px] justify-center max-[1024px]:justify-center">
+        <div className="flex gap-4 flex-wrap mb-4 sm:mb-6 md:mb-[60px] animate-fadeUp justify-center max-[1024px]:justify-center" style={{ animationDelay: '0.4s' }}>
           <a href="#work" className="group no-underline inline-flex justify-center items-center gap-3 font-sans text-[0.95rem] font-bold text-white bg-[rgba(255,255,255,0.05)] backdrop-blur-md py-2 pl-6 pr-2 rounded-full border border-[rgba(255,255,255,0.1)] cursor-pointer transition-all duration-300 hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.3)]" id="hero-cta-work">
             View Our Work
             <span className="flex justify-center items-center w-10 h-10 bg-white rounded-full text-black transition-transform duration-200 group-hover:scale-105">
