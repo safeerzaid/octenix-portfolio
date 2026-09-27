@@ -8,9 +8,7 @@ export default function Strategy() {
   const textRef = useRef(null)
   const prefersReducedMotion = useReducedMotion();
 
-  useEffect(() => {
-    // GSAP text animation removed to prevent LCP delay on mobile
-  }, [])
+
 
   const cards = [
     {
