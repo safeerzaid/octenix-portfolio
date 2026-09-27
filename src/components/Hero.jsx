@@ -7,8 +7,18 @@ const Aurora = React.lazy(() => import('./Aurora'))
 export default function Hero() {
   const [isMobile, setIsMobile] = useState(false);
   const [hasWebGPU, setHasWebGPU] = useState(true);
+  const [isLowEnd, setIsLowEnd] = useState(false);
   const [deferBackground, setDeferBackground] = useState(true);
   const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    // Basic heuristic to detect mobile or low-end devices
+    const lowEnd = 
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+      prefersReducedMotion;
+    setIsLowEnd(lowEnd);
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     // Defer heavy background loading until after initial LCP paint
@@ -28,7 +38,9 @@ export default function Hero() {
     <section className="min-h-[65vh] md:min-h-[60vh] lg:min-h-screen flex items-center justify-center text-center px-[10vw] relative overflow-hidden gap-10 pt-nav-h max-[1024px]:flex-col max-[1024px]:px-8 max-[1024px]:pt-[150px] max-[1024px]:pb-16 max-[640px]:pt-[125px] max-[640px]:pb-12 max-[640px]:px-6 max-[1024px]:text-center" id="home">
       {/* Background decoration: AeroShards on Desktop, Aurora on Tablet & Mobile or no WebGPU */}
       <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
-        {!deferBackground && (
+        {isLowEnd ? (
+          <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#f97316]/30 via-transparent to-transparent"></div>
+        ) : !deferBackground ? (
           <Suspense fallback={null}>
           {(isMobile || !hasWebGPU) ? (
             <Aurora
@@ -71,7 +83,7 @@ export default function Hero() {
             />
           )}
         </Suspense>
-        )}
+        ) : null}
       </div>
 
       {/* Content */}

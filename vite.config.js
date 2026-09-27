@@ -20,6 +20,15 @@ const inlineCriticalCSS = () => {
           `\n    <style>${cssContent}</style>\n  </head>`
         );
         
+        // Find the Anton font asset and inject a preload link
+        const antonFontAsset = Object.keys(bundle).find(key => key.includes('anton') && key.endsWith('.woff2'));
+        if (antonFontAsset) {
+          htmlContent = htmlContent.replace(
+            '</head>',
+            `\n    <link rel="preload" href="/${antonFontAsset}" as="font" type="font/woff2" crossorigin>\n  </head>`
+          );
+        }
+        
         // 2. Convert the synchronous stylesheet link to asynchronous preload + onload
         const linkRegex = new RegExp(`(<link[^>]+href="[^"]*${cssAsset}"[^>]*>)`, 'g');
         htmlContent = htmlContent.replace(linkRegex, (match) => {

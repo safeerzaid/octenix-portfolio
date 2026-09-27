@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
+import React, { useState, useEffect, useRef, Suspense } from 'react'
+
 import octenixLogo from '../assets/octenix_logo.webp'
-import StaggeredMenu from './StaggeredMenu'
+
+const StaggeredMenu = React.lazy(() => import('./StaggeredMenu').then(m => ({ default: m.StaggeredMenu })));
 
 export default function Navbar() {
   const [active, setActive] = useState('home')
@@ -111,22 +112,24 @@ export default function Navbar() {
 
     {/* MOBILE & TABLET NAV: StaggeredMenu */}
     <div className="hidden max-[1024px]:block fixed inset-0 pointer-events-none z-50">
-      <StaggeredMenu
-        position="right"
-        isFixed={true}
-        items={menuItems}
-        socialItems={socialItems}
-        displaySocials
-        displayItemNumbering={true}
-        menuButtonColor="#fff"
-        openMenuButtonColor="#fff"
-        changeMenuColorOnOpen={true}
-        colors={['rgba(255,255,255,0.05)']}
-        logoUrl={octenixLogo}
-        accentColor="#fff"
-        onMenuOpen={() => console.log('Menu opened')}
-        onMenuClose={() => console.log('Menu closed')}
-      />
+      <Suspense fallback={null}>
+        <StaggeredMenu
+          position="right"
+          isFixed={true}
+          items={menuItems}
+          socialItems={socialItems}
+          displaySocials
+          displayItemNumbering={true}
+          menuButtonColor="#fff"
+          openMenuButtonColor="#fff"
+          changeMenuColorOnOpen={true}
+          colors={['rgba(255,255,255,0.05)']}
+          logoUrl={octenixLogo}
+          accentColor="#fff"
+          onMenuOpen={() => console.log('Menu opened')}
+          onMenuClose={() => console.log('Menu closed')}
+        />
+      </Suspense>
     </div>
     </>
   )

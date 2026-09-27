@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
-import gsap from 'gsap';
+
 
 export default function SmoothScroller({ children }) {
   useEffect(() => {
@@ -17,18 +17,17 @@ export default function SmoothScroller({ children }) {
       infinite: false,
     });
 
-    // Synchronize Lenis with GSAP's ticker for perfect performance
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
-    gsap.ticker.lagSmoothing(0);
+    // Use standard requestAnimationFrame instead of gsap ticker to remove GSAP from main bundle
+    let rafId;
+    function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
