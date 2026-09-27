@@ -5,10 +5,12 @@ const SpotlightCard = ({ children, className = '', spotlightColor = 'rgba(255, 2
   const [isFocused, setIsFocused] = useState(false);
   const [opacity, setOpacity] = useState(0);
 
-  const handleMouseMove = e => {
-    if (!divRef.current || isFocused) return;
+  const rectRef = useRef(null);
 
-    const rect = divRef.current.getBoundingClientRect();
+  const handleMouseMove = e => {
+    if (!divRef.current || isFocused || !rectRef.current) return;
+
+    const rect = rectRef.current;
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
@@ -28,10 +30,14 @@ const SpotlightCard = ({ children, className = '', spotlightColor = 'rgba(255, 2
 
   const handleMouseEnter = () => {
     setOpacity(0.6);
+    if (divRef.current) {
+      rectRef.current = divRef.current.getBoundingClientRect();
+    }
   };
 
   const handleMouseLeave = () => {
     setOpacity(0);
+    rectRef.current = null;
   };
 
   return (

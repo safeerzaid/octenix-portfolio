@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import octenixLogo from '../assets/octenix_logo.png'
+import octenixLogo from '../assets/octenix_logo.webp'
 import StaggeredMenu from './StaggeredMenu'
 
 export default function Navbar() {

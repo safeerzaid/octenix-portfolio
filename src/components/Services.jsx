@@ -60,20 +60,9 @@ export default function Services() {
     let animationFrame;
     
     const updateProgress = () => {
-      // Lerp for smooth interpolation - 0.15 for a responsive feel, 1 for instant snap if reduced motion
-      currentProgress.current += (targetProgress.current - currentProgress.current) * (prefersReducedMotion ? 1 : 0.15);
-      setProgress(currentProgress.current);
-      
-      // Keep looping if not reached target
-      if (Math.abs(targetProgress.current - currentProgress.current) > 0.001) {
-        animationFrame = requestAnimationFrame(updateProgress);
-      } else {
-        animationFrame = null;
-      }
-    };
-
-    const handleScroll = () => {
       if (!containerRef.current) return;
+      
+      // READ phase (batched at start of frame)
       const rect = containerRef.current.getBoundingClientRect();
       const scrollHeight = rect.height - window.innerHeight;
       
@@ -85,8 +74,23 @@ export default function Services() {
       } else {
         newProgress = -rect.top / scrollHeight;
       }
-      
       targetProgress.current = newProgress;
+
+      // Lerp for smooth interpolation
+      currentProgress.current += (targetProgress.current - currentProgress.current) * (prefersReducedMotion ? 1 : 0.15);
+      
+      // WRITE phase (React state update)
+      setProgress(currentProgress.current);
+      
+      // Keep looping if not reached target
+      if (Math.abs(targetProgress.current - currentProgress.current) > 0.001) {
+        animationFrame = requestAnimationFrame(updateProgress);
+      } else {
+        animationFrame = null;
+      }
+    };
+
+    const handleScroll = () => {
       if (!animationFrame) {
         animationFrame = requestAnimationFrame(updateProgress);
       }
