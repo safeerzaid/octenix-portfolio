@@ -1,10 +1,12 @@
 import AeroShards from './AeroShards'
 import Aurora from './Aurora'
 import { useState, useEffect } from 'react'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 
 export default function Hero() {
   const [isMobile, setIsMobile] = useState(false);
   const [hasWebGPU, setHasWebGPU] = useState(true);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 1024);
@@ -22,8 +24,8 @@ export default function Hero() {
           <Aurora
             colorStops={["#f0a672", "#cf5d0e", "#f1873e"]}
             blend={0.5}
-            amplitude={1.0}
-            speed={1}
+            amplitude={prefersReducedMotion ? 0 : 1.0}
+            speed={prefersReducedMotion ? 0 : 1}
           />
         ) : (
           <AeroShards
@@ -38,13 +40,13 @@ export default function Hero() {
             scale={1}
             spread={1}
             depth={1}
-            speed={0.5}
-            spin={1}
+            speed={prefersReducedMotion ? 0 : 0.5}
+            spin={prefersReducedMotion ? 0 : 1}
             interaction="repel"
             density={1.5}
             shardSize={1.1}
             stretch={1}
-            turbulence={1}
+            turbulence={prefersReducedMotion ? 0 : 1}
             glow={1}
             edgeSoftness={2}
             bloom={0.5}
@@ -53,9 +55,9 @@ export default function Hero() {
             transitionDuration={1}
             interactionRadius={1.5}
             interactionStrength={0.5}
-            rippleIntensity={1}
+            rippleIntensity={prefersReducedMotion ? 0 : 1}
             holdToGather
-            paused={false}
+            paused={prefersReducedMotion}
           />
         )}
       </div>

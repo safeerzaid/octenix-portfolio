@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import SpotlightCard from './SpotlightCard';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,10 +26,17 @@ const cards = [
 
 export default function About() {
   const containerRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
   const pText = "We are a passionate team of designers, developers, and strategists united by one mission — to create digital products that leave a lasting impression.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set(['.about-char', '.about-word'], { opacity: 1, filter: 'blur(0px)', yPercent: 0, rotateX: 0 });
+        gsap.set('.about-card', { y: 0, opacity: 1, filter: 'blur(0px)' });
+        return;
+      }
+      
       // Advanced 3D kinetic letter-by-letter reveal with blur focus pull
       gsap.fromTo('.about-char', 
         { 

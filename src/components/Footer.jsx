@@ -135,8 +135,9 @@ export default function Footer() {
       
       {/* Half-cut Massive Footer Text with Staggered Letter Animation */}
       <div className="footer-octenix-title w-full flex justify-center mt-2 md:mt-4 pointer-events-none select-none overflow-hidden">
-        <h1 
+        <div 
           className="text-[28vw] leading-[0.75] tracking-normal text-white/30 font-thin uppercase translate-y-[22%] flex justify-center font-coolvetica"
+          aria-hidden="true"
         >
           {"OCTENIX".split('').map((letter, i) => (
             <span 
@@ -146,7 +147,7 @@ export default function Footer() {
               {letter}
             </span>
           ))}
-        </h1>
+        </div>
       </div>
     </footer>
   );

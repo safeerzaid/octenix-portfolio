@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,9 +10,23 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ text: '', type: '' });
   const containerRef = useRef(null);
+  const modalRef = useRef(null);
+  const previousFocusRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set(['.contact-char', '.contact-btn'], {
+          opacity: 1,
+          yPercent: 0,
+          rotateZ: 0,
+          scale: 1,
+          rotate: 0,
+        });
+        return;
+      }
+      
       // Smooth slide up reveal for individual letters
       gsap.fromTo('.contact-char',
         { yPercent: 120, rotateZ: 5, opacity: 0 },
@@ -53,18 +68,57 @@ export default function Contact() {
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = 'hidden';
+      previousFocusRef.current = document.activeElement;
+      
+      if (modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length) focusable[0].focus();
+      }
+
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          setIsModalOpen(false);
+          return;
+        }
+        if (e.key === 'Tab' && modalRef.current) {
+          const focusable = modalRef.current.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (!focusable.length) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === first) {
+              last.focus();
+              e.preventDefault();
+            }
+          } else {
+            if (document.activeElement === last) {
+              first.focus();
+              e.preventDefault();
+            }
+          }
+        }
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
     } else {
       document.body.style.overflow = 'unset';
+      if (previousFocusRef.current) {
+        previousFocusRef.current.focus();
+      }
     }
+  }, [isModalOpen]);
 
+  useEffect(() => {
     const handleOpenModal = () => setIsModalOpen(true);
     window.addEventListener('open-contact-modal', handleOpenModal);
-
-    return () => {
-      document.body.style.overflow = 'unset';
-      window.removeEventListener('open-contact-modal', handleOpenModal);
-    };
-  }, [isModalOpen]);
+    return () => window.removeEventListener('open-contact-modal', handleOpenModal);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -182,14 +236,19 @@ export default function Contact() {
 
       {/* Full Screen Slide-Up Curved Modal (Spacious & Breathable) */}
       <div 
+        ref={modalRef}
         className={`fixed inset-x-0 bottom-0 top-3 md:top-10 lg:top-12 z-50 bg-[#050505] text-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           isModalOpen ? 'translate-y-0' : 'translate-y-full'
         } rounded-t-[32px] md:rounded-t-[60px] overflow-y-auto flex flex-col shadow-2xl`}
         style={isModalOpen ? { transform: 'none' } : undefined}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Contact form"
       >
         {/* Close Button */}
         <button 
           onClick={() => setIsModalOpen(false)}
+          aria-label="Close"
           className="absolute top-6 right-6 md:top-10 md:right-12 w-12 h-12 md:w-14 md:h-14 rounded-full border border-neutral-700/80 flex items-center justify-center hover:bg-neutral-800 transition-colors z-50 cursor-pointer"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -226,6 +285,7 @@ export default function Contact() {
                     type="text" 
                     name="name"
                     placeholder="Name *" 
+                    aria-label="Full name"
                     className="w-full bg-white/[0.03] hover:bg-white/[0.05] focus:bg-white/[0.07] border border-white/10 focus:border-orange-500 rounded-xl px-4 py-3.5 text-base md:text-lg leading-normal outline-none transition-all placeholder:text-neutral-500 text-white font-light block" 
                     required 
                   />
@@ -236,6 +296,7 @@ export default function Contact() {
                     type="email" 
                     name="email"
                     placeholder="E-mail *" 
+                    aria-label="Email address"
                     className="w-full bg-white/[0.03] hover:bg-white/[0.05] focus:bg-white/[0.07] border border-white/10 focus:border-orange-500 rounded-xl px-4 py-3.5 text-base md:text-lg leading-normal outline-none transition-all placeholder:text-neutral-500 text-white font-light block" 
                     required 
                   />
@@ -245,6 +306,7 @@ export default function Contact() {
                   <textarea 
                     name="message"
                     placeholder="Your message" 
+                    aria-label="Message"
                     rows="3" 
                     className="w-full bg-white/[0.03] hover:bg-white/[0.05] focus:bg-white/[0.07] border border-white/10 focus:border-orange-500 rounded-xl px-4 py-3.5 text-base md:text-lg leading-relaxed outline-none transition-all placeholder:text-neutral-500 text-white font-light resize-none block" 
                     required

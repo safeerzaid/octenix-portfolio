@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 
 import growthSystemsImg from '../assets/growth-systems.jpg'
 import businessNeedsUsImg from '../assets/business-needs-us.jpg'
@@ -9,10 +10,16 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function Strategy() {
   const textRef = useRef(null)
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const words = gsap.utils.toArray('.word-inner');
+      
+      if (prefersReducedMotion) {
+        gsap.set(words, { opacity: 1 });
+        return;
+      }
       
       gsap.fromTo(words, 
         { 
@@ -74,6 +81,8 @@ export default function Strategy() {
                   src={card.image} 
                   alt="Strategy Card" 
                   className={`w-full h-full object-cover ${card.objectPosition || 'object-top'} transition-transform duration-500 group-hover:scale-105`} 
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             ) : (

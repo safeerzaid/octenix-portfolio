@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import project1Image from '../assets/project 1.png';
-import project2Image from '../assets/project 2 (1).png';
+import project1ImageFallback from '../assets/project 1.png';
+import project1ImageWebp from '../assets/project 1.webp';
+import project2ImageFallback from '../assets/project 2 (1).png';
+import project2ImageWebp from '../assets/project 2 (1).webp';
 import project3Image from '../assets/project 3.png';
 
 const ProjectImage = ({ project }) => {
@@ -15,12 +17,17 @@ const ProjectImage = ({ project }) => {
   }
 
   return (
-    <img 
-      src={project.image} 
-      alt={project.title} 
-      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-      onError={() => setHasError(true)}
-    />
+    <picture>
+      {project.webp && <source srcSet={project.webp} type="image/webp" />}
+      <img 
+        src={project.image} 
+        alt={project.title} 
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        onError={() => setHasError(true)}
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
   );
 };
 
@@ -30,13 +37,15 @@ export default function Work() {
       title: "The Code hotel",
       year: "2024",
       description: "Static website and hotel booking platform",
-      image: project1Image
+      image: project1ImageFallback,
+      webp: project1ImageWebp
     },
     {
       title: "Hyperlocal Discovery",
       year: "2024",
       description: "Product design and platform build",
-      image: project2Image
+      image: project2ImageFallback,
+      webp: project2ImageWebp
     },
     {
       title: "Creative Branding & Identity",

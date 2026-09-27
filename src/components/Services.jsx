@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const servicesData = [
   {
@@ -39,6 +40,7 @@ export default function Services() {
   const [screenType, setScreenType] = useState('desktop');
   const targetProgress = useRef(0);
   const currentProgress = useRef(0);
+  const prefersReducedMotion = useReducedMotion();
 
   // Handle responsive layout state (mobile < 740, tablet 768-1199, desktop >= 1200)
   useEffect(() => {
@@ -58,8 +60,8 @@ export default function Services() {
     let animationFrame;
     
     const updateProgress = () => {
-      // Lerp for smooth interpolation - 0.15 for a responsive feel
-      currentProgress.current += (targetProgress.current - currentProgress.current) * 0.15;
+      // Lerp for smooth interpolation - 0.15 for a responsive feel, 1 for instant snap if reduced motion
+      currentProgress.current += (targetProgress.current - currentProgress.current) * (prefersReducedMotion ? 1 : 0.15);
       setProgress(currentProgress.current);
       
       // Keep looping if not reached target
