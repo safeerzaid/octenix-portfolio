@@ -409,6 +409,8 @@ export const StaggeredMenu = ({
             <img
               src={logoUrl}
               alt="Octenix Logo"
+              width="36"
+              height="36"
               className="w-9 h-9 object-contain shrink-0 block"
             />
             <span className="text-xl font-medium tracking-[-0.5px] text-white">

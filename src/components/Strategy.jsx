@@ -3,8 +3,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
-import growthSystemsImg from '../assets/growth-systems.jpg'
-import businessNeedsUsImg from '../assets/business-needs-us.jpg'
+import growthSystemsImg from '../assets/growth-systems.webp'
+import businessNeedsUsImg from '../assets/business-needs-us.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -65,7 +65,7 @@ export default function Strategy() {
   return (
     <section className="min-h-[70vh] bg-black flex flex-col justify-start items-start pt-24 sm:pt-28 md:pt-16 lg:pt-20 pb-16 md:pb-20 px-6 md:px-8 lg:px-[10vw] w-full">
       <div className="max-w-[1280px] w-full mx-auto">
-        <p ref={textRef} className="text-[clamp(1.5rem,3.5vw,3rem)] font-thin leading-[1.3] text-white max-w-[1100px] text-left mb-20 sm:mb-24 md:mb-14 lg:mb-20 flex flex-wrap font-coolvetica" style={{ fontWeight: 100 }}>
+        <p ref={textRef} className="text-[clamp(1.5rem,3.5vw,3rem)] leading-[1.3] text-white max-w-[1100px] text-left mb-20 sm:mb-24 md:mb-14 lg:mb-20 flex flex-wrap font-coolvetica">
           {textToAnimate.split(" ").map((word, i) => (
             <span key={i} className="inline-block mr-[0.25em] mb-[0.1em]">
               <span className="word-inner inline-block">{word}</span>
@@ -79,7 +79,9 @@ export default function Strategy() {
               <div key={idx} className="relative overflow-hidden rounded-2xl md:rounded-3xl h-[260px] md:h-[220px] lg:h-[280px] border border-[rgba(255,255,255,0.1)] transition-all duration-300 hover:border-[rgba(255,255,255,0.2)] group w-full">
                 <img 
                   src={card.image} 
-                  alt="Strategy Card" 
+                  alt="Octenix Strategy Illustration"
+                  width="1000"
+                  height="800"
                   className={`w-full h-full object-cover ${card.objectPosition || 'object-top'} transition-transform duration-500 group-hover:scale-105`} 
                   loading="lazy"
                   decoding="async"
@@ -91,7 +93,7 @@ export default function Strategy() {
                   <div className="absolute -top-[50px] -right-[50px] w-[200px] md:w-[220px] lg:w-[250px] h-[200px] md:h-[220px] lg:h-[250px] rounded-full bg-orange opacity-[0.35] blur-[50px] md:blur-[60px] pointer-events-none transition-opacity duration-500 group-hover:opacity-[0.55]"></div>
                 )}
                 <div className="relative z-10 flex-1 flex flex-col justify-between">
-                  <h3 className="text-white text-xl md:text-xl lg:text-[1.8rem] font-medium leading-tight mb-2 md:mb-3">{card.title}</h3>
+                  <h2 className="text-white text-xl md:text-xl lg:text-[1.8rem] font-medium leading-tight mb-2 md:mb-3">{card.title}</h2>
                   <p className="text-neutral-400 leading-relaxed text-xs md:text-sm lg:text-[1.15rem]">
                     {card.text}
                   </p>

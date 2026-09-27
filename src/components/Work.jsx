@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import project1ImageFallback from '../assets/project 1.png';
 import project1ImageWebp from '../assets/project 1.webp';
-import project2ImageFallback from '../assets/project 2 (1).png';
 import project2ImageWebp from '../assets/project 2 (1).webp';
-import project3Image from '../assets/project 3.png';
+import project3ImageWebp from '../assets/project 3.webp';
 
 const ProjectImage = ({ project }) => {
   const [hasError, setHasError] = useState(false);
@@ -17,17 +15,16 @@ const ProjectImage = ({ project }) => {
   }
 
   return (
-    <picture>
-      {project.webp && <source srcSet={project.webp} type="image/webp" />}
-      <img 
-        src={project.image} 
-        alt={project.title} 
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-        onError={() => setHasError(true)}
-        loading="lazy"
-        decoding="async"
-      />
-    </picture>
+    <img 
+      src={project.image} 
+      alt={`${project.title} Project`} 
+      width="1280"
+      height="720"
+      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      onError={() => setHasError(true)}
+      loading="lazy"
+      decoding="async"
+    />
   );
 };
 
@@ -37,21 +34,19 @@ export default function Work() {
       title: "The Code hotel",
       year: "2024",
       description: "Static website and hotel booking platform",
-      image: project1ImageFallback,
-      webp: project1ImageWebp
+      image: project1ImageWebp
     },
     {
       title: "Hyperlocal Discovery",
       year: "2024",
       description: "Product design and platform build",
-      image: project2ImageFallback,
-      webp: project2ImageWebp
+      image: project2ImageWebp
     },
     {
       title: "Creative Branding & Identity",
       year: "2023",
       description: "Visual identity and web presence",
-      image: project3Image
+      image: project3ImageWebp
     }
   ];
 
@@ -61,9 +56,8 @@ export default function Work() {
         {/* Header row */}
         <div className="flex flex-col md:flex-row md:items-end gap-4 mb-8 md:mb-10 lg:mb-12">
           <h2 
-            className="text-4xl md:text-5xl lg:text-7xl font-thin text-white tracking-tight font-coolvetica"
+            className="text-4xl md:text-5xl lg:text-7xl text-white tracking-tight font-coolvetica"
             style={{ 
-              fontWeight: 100,
               WebkitTextStroke: '1.5px #000000'
             }}
           >

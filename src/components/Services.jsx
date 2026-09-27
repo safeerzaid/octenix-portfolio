@@ -234,22 +234,21 @@ export default function Services() {
                   willChange: 'opacity, transform, filter'
                 }}
               >
-                <h3 
-                  className={`font-thin tracking-tight mb-2 text-white leading-tight font-coolvetica ${
+                <h2 
+                  className={`tracking-tight mb-2 text-white leading-tight font-coolvetica ${
                     isTablet ? 'text-2xl md:text-3xl' : 'text-3xl lg:text-6xl mb-4'
                   }`}
                   style={{ 
-                    fontWeight: 100,
                     WebkitTextStroke: '1.5px #050505'
                   }}
                 >
                   {service.title}
-                </h3>
-                <h4 className={`text-neutral-400 font-light ${
+                </h2>
+                <h3 className={`text-neutral-400 font-light ${
                   isTablet ? 'text-xs md:text-sm mb-3' : 'text-base lg:text-xl mb-4 lg:mb-12'
                 }`}>
                   {service.subtitle}
-                </h4>
+                </h3>
 
                 <div className={`flex flex-wrap ${
                   isTablet ? 'justify-start gap-1.5 text-[9px] md:text-[10px] mb-3' : 'justify-center md:justify-start gap-2 lg:gap-4 text-[10px] lg:text-xs mb-4 lg:mb-6'
